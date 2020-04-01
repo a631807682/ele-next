@@ -1,7 +1,9 @@
+  <!-- In v3 all v-on listeners will fallthrough to child component root by default
+  see: https://github.com/vuejs/vue-next/issues/813 
+  -->
 <template>
   <button
     class="el-button"
-    @click="handleClick"
     :disabled="buttonDisabled || loading"
     :autofocus="autofocus"
     :type="nativeType"
@@ -68,12 +70,6 @@ export default {
     },
     buttonDisabled() {
       return this.disabled || (this.elForm || {}).disabled;
-    }
-  },
-
-  methods: {
-    handleClick(evt) {
-      this.$emit("click", evt);
     }
   }
 };
