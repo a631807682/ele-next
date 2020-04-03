@@ -11,3 +11,5 @@ exports.alias = {
   examples: path.resolve(__dirname, "../examples"),
   "element-ui": path.resolve(__dirname, "../")
 };
+
+exports.jsexclude = /node_modules|utils\/popper\.js|utils\/date\.js/;

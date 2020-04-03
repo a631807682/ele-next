@@ -1,14 +1,17 @@
 <template>
-  <el-button type="primary" @click="inc">{{count}}</el-button>
+  <div>
+    <el-button type="primary" @click="inc">{{ count }}</el-button>
+    <el-button type="warning" size="mini">large</el-button>
+  </div>
 </template>
 
-<script>
+<script lang="ts">
 import { ref } from "vue";
 
 export default {
   setup() {
     const count = ref(0);
-    const inc = event => {
+    const inc = (event: Event) => {
       count.value++;
     };
 

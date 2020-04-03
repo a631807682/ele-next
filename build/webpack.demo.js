@@ -9,13 +9,13 @@ const isProd = process.env.NODE_ENV === "production";
 module.exports = (env = {}) => ({
   mode: isProd ? "production" : "development",
   devtool: isProd ? "source-map" : "cheap-module-eval-source-map",
-  entry: path.resolve(process.cwd(), "./examples/src/main.js"),
+  entry: path.resolve(process.cwd(), "./examples/src/main.ts"),
   output: {
     path: path.resolve(process.cwd(), "./examples/element-ui/"),
     publicPath: ""
   },
   resolve: {
-    extensions: [".js", ".vue", ".json"],
+    extensions: [".ts", ".tsx", ".js", ".vue", ".json"],
     alias: config.alias
   },
   module: {
@@ -37,6 +37,20 @@ module.exports = (env = {}) => ({
           isProd ? MiniCssExtractPlugin.loader : "style-loader",
           "css-loader",
           "sass-loader"
+        ]
+      },
+      {
+        test: /\.tsx?$/,
+        exclude: config.jsexclude,
+        use: [
+          "babel-loader",
+          {
+            loader: "ts-loader",
+            options: {
+              appendTsSuffixTo: [/\.vue$/],
+              appendTsxSuffixTo: [/\.vue$/]
+            }
+          }
         ]
       }
     ]

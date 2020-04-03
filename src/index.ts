@@ -1,5 +1,6 @@
-import Button from "../packages/button/index.js";
-const install = function(app, opts = {}) {
+import { App } from "vue";
+import Button from "packages/button/src/button.vue";
+const install = function(app: App, opts = {}) {
   app.component(Button.name, Button);
 
   // will be support in alpha.11

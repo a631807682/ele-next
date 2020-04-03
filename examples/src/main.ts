@@ -1,8 +1,10 @@
 import { createApp } from "vue";
 import App from "./App.vue";
-import * as Element from "main/index.js";
+import * as Element from "main/index";
 import "packages/theme-chalk/src/index.scss";
 
 let VueApp = createApp(App);
-VueApp.use(Element);
+VueApp.use(Element, {
+  size: "large"
+});
 VueApp.mount("#app");

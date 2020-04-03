@@ -1,4 +1,4 @@
-  <!-- In v3 all v-on listeners will fallthrough to child component root by default
+<!-- In v3 all v-on listeners will fallthrough to child component root by default
   see: https://github.com/vuejs/vue-next/issues/813 
   -->
 <template>
@@ -26,19 +26,12 @@
     </span>
   </button>
 </template>
-<script>
+<script lang="ts">
+import { inject, computed } from "vue";
+import { ELEMENT } from "main/compoment";
+
 export default {
   name: "ElButton",
-
-  inject: {
-    elForm: {
-      default: ""
-    },
-    elFormItem: {
-      default: ""
-    }
-  },
-
   props: {
     type: {
       type: String,
@@ -60,17 +53,29 @@ export default {
     round: Boolean,
     circle: Boolean
   },
+  setup(props) {
+    const elForm = inject("elForm", {});
+    const elFormItem = inject("elFormItem", {});
 
-  computed: {
-    _elFormItemSize() {
-      return (this.elFormItem || {}).elFormItemSize;
-    },
-    buttonSize() {
-      return this.size || this._elFormItemSize || (this.$ELEMENT || {}).size;
-    },
-    buttonDisabled() {
-      return this.disabled || (this.elForm || {}).disabled;
-    }
+    const _elFormItemSize = computed(() => {
+      return (elFormItem as any).elFormItemSize;
+    });
+
+    const buttonSize = computed(() => {
+      return props.size || _elFormItemSize || ELEMENT.size;
+    });
+
+    const buttonDisabled = computed(() => {
+      return props.disabled || (elForm as any).disabled;
+    });
+
+    return {
+      elForm,
+      elFormItem,
+      _elFormItemSize,
+      buttonSize,
+      buttonDisabled
+    };
   }
 };
 </script>
