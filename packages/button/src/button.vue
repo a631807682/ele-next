@@ -28,7 +28,7 @@
 </template>
 <script lang="ts">
 import { inject, computed } from "vue";
-import { ELEMENT } from "main/compoment";
+import { ELEMENT_REF } from "main/compoment";
 
 export default {
   name: "ElButton",
@@ -62,7 +62,7 @@ export default {
     });
 
     const buttonSize = computed(() => {
-      return props.size || _elFormItemSize || ELEMENT.size;
+      return props.size || _elFormItemSize.value || ELEMENT_REF.value.size;
     });
 
     const buttonDisabled = computed(() => {

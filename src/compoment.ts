@@ -1,4 +1,4 @@
-import { App } from "vue";
+import { App, ref } from "vue";
 
 /** ElementUI component common definition */
 export declare class ElementUIComponent extends Plugin {
@@ -12,10 +12,12 @@ export type ElementUIComponentSize = "large" | "medium" | "small" | "mini";
 /** Horizontal alignment */
 export type ElementUIHorizontalAlignment = "left" | "center" | "right";
 
-export const ELEMENT: {
+export type ElementUIProp = {
   size: ElementUIComponentSize | "";
   zIndex: Number;
-} = {
+};
+
+export const ELEMENT_REF = ref({
   size: "",
   zIndex: 2000
-};
+});
