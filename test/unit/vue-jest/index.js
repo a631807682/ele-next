@@ -48,6 +48,8 @@ function processScript(script, filename, config) {
   if (script.lang === "typescript" || script.lang === "ts") {
     return transpileModule(script.content, {}).outputText;
   }
+
+  return script.content;
 }
 
 module.exports.process = function (source, filename) {
