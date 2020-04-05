@@ -15,8 +15,8 @@
         'is-loading': loading,
         'is-plain': plain,
         'is-round': round,
-        'is-circle': circle
-      }
+        'is-circle': circle,
+      },
     ]"
   >
     <i class="el-icon-loading" v-if="loading"></i>
@@ -28,7 +28,7 @@
 </template>
 <script lang="ts">
 import { inject, computed } from "vue";
-import { ELEMENT_REF } from "main/compoment";
+import { ELEMENT_REF } from "src/component";
 
 export default {
   name: "ElButton",
@@ -62,7 +62,11 @@ export default {
     });
 
     const buttonSize = computed(() => {
-      return props.size || _elFormItemSize.value || ELEMENT_REF.value.size;
+      return (
+        props.size || _elFormItemSize.value || ELEMENT_REF.value.size
+        // ||
+        // (ELEMENT_REF1 && ELEMENT_REF1.size)
+      );
     });
 
     const buttonDisabled = computed(() => {

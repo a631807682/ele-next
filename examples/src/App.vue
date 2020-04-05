@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-button type="primary" @click="inc">{{ count }}</el-button>
+    <el-button loading type="primary" @click="inc">{{ count }}</el-button>
     <el-button type="warning" size="medium">large</el-button>
   </div>
 </template>

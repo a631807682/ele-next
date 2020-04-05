@@ -19,5 +19,5 @@ export type ElementUIProp = {
 
 export const ELEMENT_REF = ref({
   size: "",
-  zIndex: 2000
+  zIndex: 2000,
 });

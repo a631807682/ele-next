@@ -6,7 +6,7 @@ exports.alias = {
   // extra re-export somehow causes webpack to always invalidate the module
   // on the first HMR update and causes the page to reload.
   vue: "@vue/runtime-dom",
-  main: path.resolve(__dirname, "../src"),
+  src: path.resolve(__dirname, "../src"),
   packages: path.resolve(__dirname, "../packages"),
   examples: path.resolve(__dirname, "../examples"),
   "element-ui": path.resolve(__dirname, "../")

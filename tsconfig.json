@@ -6,7 +6,7 @@
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "node",
-    "allowJs": false,
+    "allowJs": true,
     "strict": false,
     "noUnusedLocals": true,
     "experimentalDecorators": true,
@@ -15,12 +15,13 @@
     "removeComments": false,
     "jsx": "preserve",
     "lib": ["esnext", "dom"],
+    "types": ["jest", "node"],
     "rootDir": ".",
     "paths": {
-      "main/*": ["src/*"],
-      "packages": ["packages"],
-      "examples": ["examples"],
-      "element-ui": ["."]
+      "src/*": ["src/*"],
+      "packages/*": ["packages/*"],
+      "examples/*": ["examples/*"],
+      "element-ui": ["./*"]
     }
   },
   "exclude": ["node_modules"]
