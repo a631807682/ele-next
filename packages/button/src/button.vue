@@ -57,12 +57,12 @@ export default {
     const elForm = inject("elForm", {});
     const elFormItem = inject("elFormItem", {});
 
-    const _elFormItemSize = computed(() => {
-      return (elFormItem as any).elFormItemSize;
-    });
-
     const buttonSize = computed(() => {
-      return props.size || _elFormItemSize.value || ElementUIOptions.value.size;
+      return (
+        props.size ||
+        (elFormItem as any).elFormItemSize ||
+        ElementUIOptions.value.size
+      );
     });
 
     const buttonDisabled = computed(() => {
@@ -70,8 +70,6 @@ export default {
     });
 
     return {
-      elForm,
-      elFormItem,
       buttonSize,
       buttonDisabled
     };
