@@ -1,5 +1,7 @@
 # ele-next
 
+![Test](https://github.com/a631807682/ele-next/workflows/Test/badge.svg)
+
 > ElementUI for Vue 3 (alpha)
 
 For learning only unless the ElementUI declares that it is no longer maintained.
