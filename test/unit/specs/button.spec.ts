@@ -1,6 +1,6 @@
 import { createTest, createVue, waitImmediate } from "../util";
 import { mockWarn } from "@vue/shared";
-import Button from "packages/button";
+import { Button } from "packages/button";
 
 describe("Button", () => {
   mockWarn();
