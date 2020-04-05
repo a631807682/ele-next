@@ -4,8 +4,6 @@
 
 > ElementUI for Vue 3 (alpha)
 
-For learning only unless the ElementUI declares that it is no longer maintained.
-
 ### TodoList
 
 - [ ] Alert
