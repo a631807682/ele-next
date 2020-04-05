@@ -44,7 +44,7 @@ For learning only unless the ElementUI declares that it is no longer maintained.
 - [ ] Form
 - [ ] FormItem
 - [ ] Header
-- [ ] Icon
+- [x] Icon
 - [ ] Image
 - [ ] InfiniteScroll
 - [ ] Input
@@ -90,4 +90,4 @@ For learning only unless the ElementUI declares that it is no longer maintained.
 - [ ] Tooltip
 - [ ] Transfer
 - [ ] Tree
-- [ ] Upload"
+- [ ] Upload
