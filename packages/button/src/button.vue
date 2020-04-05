@@ -72,7 +72,6 @@ export default {
     return {
       elForm,
       elFormItem,
-      _elFormItemSize,
       buttonSize,
       buttonDisabled
     };
