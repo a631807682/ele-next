@@ -14,7 +14,7 @@ For learning only unless the ElementUI declares that it is no longer maintained.
 - [ ] Badge
 - [ ] Breadcrumb
 - [ ] BreadcrumbItem
-- [ ] Button
+- [x] Button
 - [ ] ButtonGroup
 - [ ] Calendar
 - [ ] Card
