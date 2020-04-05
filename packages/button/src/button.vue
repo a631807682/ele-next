@@ -1,7 +1,7 @@
-<!-- In v3 all v-on listeners will fallthrough to child component root by default
+<template>
+  <!-- In v3 all v-on listeners will fallthrough to child component root by default
   see: https://github.com/vuejs/vue-next/issues/813 
   -->
-<template>
   <button
     class="el-button"
     :disabled="buttonDisabled || loading"
@@ -28,7 +28,7 @@
 </template>
 <script lang="ts">
 import { inject, computed } from "vue";
-import { ELEMENT_REF } from "src/component";
+import { ElementUIOptions } from "src/component";
 
 export default {
   name: "ElButton",
@@ -62,11 +62,7 @@ export default {
     });
 
     const buttonSize = computed(() => {
-      return (
-        props.size || _elFormItemSize.value || ELEMENT_REF.value.size
-        // ||
-        // (ELEMENT_REF1 && ELEMENT_REF1.size)
-      );
+      return props.size || _elFormItemSize.value || ElementUIOptions.value.size;
     });
 
     const buttonDisabled = computed(() => {

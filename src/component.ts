@@ -17,7 +17,7 @@ export type ElementUIProp = {
   zIndex: Number;
 };
 
-export const ELEMENT_REF = ref({
+export const ElementUIOptions = ref({
   size: "",
   zIndex: 2000,
 });
