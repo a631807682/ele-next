@@ -27,8 +27,9 @@
   </button>
 </template>
 <script lang="ts">
-import { inject, computed } from "vue";
+import { computed } from "vue";
 import { ElementUIOptions } from "src/component";
+import { useForm } from "src/utils/injection/form";
 
 export default {
   name: "ElButton",
@@ -54,8 +55,7 @@ export default {
     circle: Boolean
   },
   setup(props) {
-    const elForm = inject("elForm", {});
-    const elFormItem = inject("elFormItem", {});
+    const { elForm, elFormItem } = useForm();
 
     const buttonSize = computed(() => {
       return (
