@@ -1,7 +1,9 @@
-<template>
   <!-- In v3 all v-on listeners will fallthrough to child component root by default
   see: https://github.com/vuejs/vue-next/issues/813 
+  can not write root level common in alpha.11 
+  see：https://github.com/vuejs/vue-next/issues/943
   -->
+<template>
   <button
     class="el-button"
     :disabled="buttonDisabled || loading"
@@ -66,6 +68,7 @@ export default {
     });
 
     const buttonDisabled = computed(() => {
+      console.log("buttonDisabled", props.disabled);
       return props.disabled || (elForm as any).disabled;
     });
 
