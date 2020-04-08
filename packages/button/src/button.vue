@@ -74,13 +74,11 @@ export default defineComponent({
     const state = reactive({
       buttonSize: computed(() => {
         return (
-          props.size ||
-          (elFormItem as any).elFormItemSize ||
-          ElementUIOptions.value.size
+          props.size || elFormItem.elFormItemSize || ElementUIOptions.value.size
         );
       }),
       buttonDisabled: computed(() => {
-        return props.disabled || (elForm as any).disabled;
+        return props.disabled || elForm.disabled;
       })
     });
 
