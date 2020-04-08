@@ -29,24 +29,36 @@
   </button>
 </template>
 <script lang="ts">
-import { computed, reactive, toRefs } from "vue";
-import { ElementUIOptions } from "src/component";
+import { computed, reactive, toRefs, defineComponent, PropType } from "vue";
+import { ElementUIOptions, ElementUIComponentSize } from "src/component";
 import { useForm } from "src/utils/injection/form";
 
-export default {
+/** Button type */
+export type ButtonType =
+  | "primary"
+  | "success"
+  | "warning"
+  | "danger"
+  | "info"
+  | "text";
+
+/** Same as native button's type */
+export type ButtonNativeType = "button" | "submit" | "reset" | "menu";
+
+export default defineComponent({
   name: "ElButton",
   props: {
     type: {
-      type: String,
+      type: String as PropType<ButtonType>,
       default: "default"
     },
-    size: String,
+    size: String as PropType<ElementUIComponentSize>,
     icon: {
       type: String,
       default: ""
     },
     nativeType: {
-      type: String,
+      type: String as PropType<ButtonNativeType>,
       default: "button"
     },
     loading: Boolean,
@@ -76,5 +88,5 @@ export default {
       ...toRefs(state)
     };
   }
-};
+});
 </script>
