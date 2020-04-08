@@ -29,7 +29,7 @@
   </button>
 </template>
 <script lang="ts">
-import { computed } from "vue";
+import { computed, reactive, toRefs } from "vue";
 import { ElementUIOptions } from "src/component";
 import { useForm } from "src/utils/injection/form";
 
@@ -59,22 +59,21 @@ export default {
   setup(props) {
     const { elForm, elFormItem } = useForm();
 
-    const buttonSize = computed(() => {
-      return (
-        props.size ||
-        (elFormItem as any).elFormItemSize ||
-        ElementUIOptions.value.size
-      );
-    });
-
-    const buttonDisabled = computed(() => {
-      console.log("buttonDisabled", props.disabled);
-      return props.disabled || (elForm as any).disabled;
+    const state = reactive({
+      buttonSize: computed(() => {
+        return (
+          props.size ||
+          (elFormItem as any).elFormItemSize ||
+          ElementUIOptions.value.size
+        );
+      }),
+      buttonDisabled: computed(() => {
+        return props.disabled || (elForm as any).disabled;
+      })
     });
 
     return {
-      buttonSize,
-      buttonDisabled
+      ...toRefs(state)
     };
   }
 };
