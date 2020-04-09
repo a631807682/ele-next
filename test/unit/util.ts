@@ -1,7 +1,16 @@
 import * as Element from "src/index";
-import { ComponentOptions, render, h, createApp } from "vue";
+import {
+  ComponentOptions,
+  ComponentPublicInstance,
+  render,
+  h,
+  createApp,
+} from "vue";
 
-export function createTest(Compo: ComponentOptions, propsData = {}): Element {
+export function createTest(
+  Compo: new () => ComponentPublicInstance,
+  propsData = {}
+): Element {
   const root = document.createElement("div");
   render(h(Compo, propsData), root);
   return root.children[0];

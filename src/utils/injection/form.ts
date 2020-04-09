@@ -9,7 +9,7 @@ export const provideFormItem = (formItem: any) =>
   provide(formItemSymbol, formItem);
 
 export const useForm = () => {
-  const elForm = inject(formSymbol, {});
-  const elFormItem = inject(formItemSymbol, {});
+  const elForm = inject(formSymbol, {} as any);
+  const elFormItem = inject(formItemSymbol, {} as any);
   return { elForm, elFormItem };
 };

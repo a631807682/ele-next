@@ -1,6 +1,6 @@
 // vue-shim.d.ts
 declare module "*.vue" {
-  import { ComponentOptions } from "@vue/runtime-dom";
-  const app: ComponentOptions;
+  import { ComponentPublicInstance } from "@vue/runtime-dom";
+  const app: new () => ComponentPublicInstance;
   export default app;
 }
