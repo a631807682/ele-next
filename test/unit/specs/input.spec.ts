@@ -15,7 +15,7 @@ describe("Input", () => {
           :maxlength="5"
           placeholder="请输入内容"
           @focus="handleFocus"
-          :value="input.value">
+          v-model="input">
         </el-input>
       `,
       setup() {

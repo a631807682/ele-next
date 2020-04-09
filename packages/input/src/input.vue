@@ -29,8 +29,8 @@
         :type="showPassword ? (passwordVisible ? 'text': 'password') : type"
         :disabled="inputDisabled"
         :readonly="readonly"
-        :autocomplete="autoComplete || autocomplete"
-        ref="input"
+        :autocomplete="autocomplete"
+        ref="refInput"
         @compositionstart="handleCompositionStart"
         @compositionupdate="handleCompositionUpdate"
         @compositionend="handleCompositionEnd"
@@ -86,7 +86,7 @@
       @compositionupdate="handleCompositionUpdate"
       @compositionend="handleCompositionEnd"
       @input="handleInput"
-      ref="textarea"
+      ref="refTextarea"
       v-bind="$attrs"
       :disabled="inputDisabled"
       :readonly="readonly"
@@ -104,353 +104,376 @@
   </div>
 </template>
 <script lang="ts">
+import {
+  ref,
+  computed,
+  nextTick,
+  watchEffect,
+  reactive,
+  toRefs,
+  onMounted,
+  onUpdated,
+  defineComponent,
+  PropType,
+  Ref
+} from "vue";
+import { useForm } from "src/utils/injection/form";
+import { isNumber, isKorean } from "src/utils/share";
 import calcTextareaHeight from "./calcTextareaHeight";
-export default {
-  setup() {}
-};
-</script>
-<script>
-// import emitter from "element-ui/src/mixins/emitter";
-// import Migrating from "element-ui/src/mixins/migrating";
-// import calcTextareaHeight from "./calcTextareaHeight";
-// import merge from "element-ui/src/utils/merge";
-// import { isKorean } from "element-ui/src/utils/shared";
+import { ElementUIOptions, ElementUIComponentSize } from "src/component";
 
-// export default {
-//   name: "ElInput",
+export type Resizability = "none" | "both" | "horizontal" | "vertical";
+export type InputType = "text" | "textarea";
+/** Controls how el-input component automatically sets size */
+export interface AutoSize {
+  /** Minimum rows to show */
+  minRows: number;
 
-//   componentName: "ElInput",
+  /** Maximum rows to show */
+  maxRows: number;
+}
 
-//   mixins: [emitter, Migrating],
+export default defineComponent({
+  name: "ElInput",
 
-//   inheritAttrs: false,
+  componentName: "ElInput",
 
-//   inject: {
-//     elForm: {
-//       default: ""
-//     },
-//     elFormItem: {
-//       default: ""
-//     }
-//   },
+  // TODO: dispatch to form
+  // mixins: [emitter, Migrating],
 
-//   data() {
-//     return {
-//       textareaCalcStyle: {},
-//       hovering: false,
-//       focused: false,
-//       isComposing: false,
-//       passwordVisible: false
-//     };
-//   },
+  inheritAttrs: false,
 
-//   props: {
-//     value: [String, Number],
-//     size: String,
-//     resize: String,
-//     form: String,
-//     disabled: Boolean,
-//     readonly: Boolean,
-//     type: {
-//       type: String,
-//       default: "text"
-//     },
-//     autosize: {
-//       type: [Boolean, Object],
-//       default: false
-//     },
-//     autocomplete: {
-//       type: String,
-//       default: "off"
-//     },
-//     /** @Deprecated in next major version */
-//     autoComplete: {
-//       type: String,
-//       validator(val) {
-//         process.env.NODE_ENV !== "production" &&
-//           console.warn(
-//             "[Element Warn][Input]'auto-complete' property will be deprecated in next major version. please use 'autocomplete' instead."
-//           );
-//         return true;
-//       }
-//     },
-//     validateEvent: {
-//       type: Boolean,
-//       default: true
-//     },
-//     suffixIcon: String,
-//     prefixIcon: String,
-//     label: String,
-//     clearable: {
-//       type: Boolean,
-//       default: false
-//     },
-//     showPassword: {
-//       type: Boolean,
-//       default: false
-//     },
-//     showWordLimit: {
-//       type: Boolean,
-//       default: false
-//     },
-//     tabindex: String
-//   },
+  props: {
+    modelValue: {
+      type: [String, Number]
+    },
+    size: String as PropType<ElementUIComponentSize>,
+    resize: String as PropType<Resizability>,
+    form: String,
+    disabled: Boolean,
+    readonly: Boolean,
+    type: {
+      type: String as PropType<InputType>,
+      default: "text"
+    },
+    autosize: {
+      type: [Boolean, Object],
+      // type: [Boolean, Object as PropType<AutoSize>],// vuter error
+      default: false
+    },
+    autocomplete: {
+      type: String,
+      default: "off"
+    },
+    validateEvent: {
+      type: Boolean,
+      default: true
+    },
+    suffixIcon: String,
+    prefixIcon: String,
+    label: String,
+    clearable: {
+      type: Boolean,
+      default: false
+    },
+    showPassword: {
+      type: Boolean,
+      default: false
+    },
+    showWordLimit: {
+      type: Boolean,
+      default: false
+    },
+    tabindex: String
+  },
 
-//   computed: {
-//     _elFormItemSize() {
-//       return (this.elFormItem || {}).elFormItemSize;
-//     },
-//     validateState() {
-//       return this.elFormItem ? this.elFormItem.validateState : "";
-//     },
-//     needStatusIcon() {
-//       return this.elForm ? this.elForm.statusIcon : false;
-//     },
-//     validateIcon() {
-//       return {
-//         validating: "el-icon-loading",
-//         success: "el-icon-circle-check",
-//         error: "el-icon-circle-close"
-//       }[this.validateState];
-//     },
-//     textareaStyle() {
-//       return merge({}, this.textareaCalcStyle, { resize: this.resize });
-//     },
-//     inputSize() {
-//       return this.size || this._elFormItemSize || (this.$ELEMENT || {}).size;
-//     },
-//     inputDisabled() {
-//       return this.disabled || (this.elForm || {}).disabled;
-//     },
-//     nativeInputValue() {
-//       return this.value === null || this.value === undefined
-//         ? ""
-//         : String(this.value);
-//     },
-//     showClear() {
-//       return (
-//         this.clearable &&
-//         !this.inputDisabled &&
-//         !this.readonly &&
-//         this.nativeInputValue &&
-//         (this.focused || this.hovering)
-//       );
-//     },
-//     showPwdVisible() {
-//       return (
-//         this.showPassword &&
-//         !this.inputDisabled &&
-//         !this.readonly &&
-//         (!!this.nativeInputValue || this.focused)
-//       );
-//     },
-//     isWordLimitVisible() {
-//       return (
-//         this.showWordLimit &&
-//         this.$attrs.maxlength &&
-//         (this.type === "text" || this.type === "textarea") &&
-//         !this.inputDisabled &&
-//         !this.readonly &&
-//         !this.showPassword
-//       );
-//     },
-//     upperLimit() {
-//       return this.$attrs.maxlength;
-//     },
-//     textLength() {
-//       if (typeof this.value === "number") {
-//         return String(this.value).length;
-//       }
+  setup(props, ctx) {
+    const { elForm, elFormItem } = useForm();
+    const textareaCalcStyle = ref({});
+    const focused: Ref<boolean> = ref(false);
+    const isComposing: Ref<boolean> = ref(false);
+    // ref template
+    const refInput: Ref<HTMLInputElement> = ref(null);
+    const refTextarea: Ref<HTMLTextAreaElement> = ref(null);
 
-//       return (this.value || "").length;
-//     },
-//     inputExceed() {
-//       // show exceed style if length of initial value greater then maxlength
-//       return this.isWordLimitVisible && this.textLength > this.upperLimit;
-//     }
-//   },
+    const nativeInputValue = computed(() => {
+      return props.modelValue === null || props.modelValue === undefined
+        ? ""
+        : String(props.modelValue as number);
+    });
 
-//   watch: {
-//     value(val) {
-//       this.$nextTick(this.resizeTextarea);
-//       if (this.validateEvent) {
-//         this.dispatch("ElFormItem", "el.form.change", [val]);
-//       }
-//     },
-//     // native input value is set explicitly
-//     // do not use v-model / :value in template
-//     // see: https://github.com/ElemeFE/element/issues/14521
-//     nativeInputValue() {
-//       this.setNativeInputValue();
-//     },
-//     // when change between <input> and <textarea>,
-//     // update DOM dependent value and styles
-//     // https://github.com/ElemeFE/element/issues/14857
-//     type() {
-//       this.$nextTick(() => {
-//         this.setNativeInputValue();
-//         this.resizeTextarea();
-//         this.updateIconOffset();
-//       });
-//     }
-//   },
+    const state = reactive({
+      hovering: false,
+      passwordVisible: false,
+      needStatusIcon: computed(() => {
+        return elForm.statusIcon || false;
+      }),
+      validateState: computed(() => {
+        return elFormItem ? elFormItem.validateState : "";
+      }),
+      inputSize: computed(() => {
+        return (
+          props.size || elFormItem.elFormItemSize || ElementUIOptions.value.size
+        );
+      }),
+      inputDisabled: computed(() => {
+        return props.disabled || elForm.disabled;
+      }),
+      validateIcon: computed(() => {
+        return {
+          validating: "el-icon-loading",
+          success: "el-icon-circle-check",
+          error: "el-icon-circle-close"
+        }[state.validateState];
+      }),
+      textareaStyle: computed(() => {
+        return { ...textareaCalcStyle.value, ...{ resize: props.resize } };
+      }),
+      showClear: computed(() => {
+        return (
+          props.clearable &&
+          !state.inputDisabled &&
+          !props.readonly &&
+          state.nativeInputValue &&
+          (focused.value || state.hovering)
+        );
+      }),
+      showPwdVisible: computed(() => {
+        return (
+          props.showPassword &&
+          !state.inputDisabled &&
+          !props.readonly &&
+          (!!nativeInputValue.value || focused.value)
+        );
+      }),
+      isWordLimitVisible: computed(() => {
+        return (
+          props.showWordLimit &&
+          ctx.attrs.maxlength &&
+          (props.type === "text" || props.type === "textare") &&
+          !state.inputDisabled &&
+          !props.readonly &&
+          !props.showPassword
+        );
+      }),
+      upperLimit: computed(() => ctx.attrs.maxlength),
+      textLength: computed(() => {
+        if (isNumber(props.modelValue)) {
+          return String(props.modelValue).length;
+        }
+        return ((props.modelValue as string) || "").length;
+      }),
+      inputExceed: computed(() => {
+        return state.isWordLimitVisible && state.textLength > state.upperLimit;
+      })
+    });
 
-//   methods: {
-//     focus() {
-//       this.getInput().focus();
-//     },
-//     blur() {
-//       this.getInput().blur();
-//     },
-//     getMigratingConfig() {
-//       return {
-//         props: {
-//           icon: "icon is removed, use suffix-icon / prefix-icon instead.",
-//           "on-icon-click": "on-icon-click is removed."
-//         },
-//         events: {
-//           click: "click is removed."
-//         }
-//       };
-//     },
-//     handleBlur(event) {
-//       this.focused = false;
-//       this.$emit("blur", event);
-//       if (this.validateEvent) {
-//         this.dispatch("ElFormItem", "el.form.blur", [this.value]);
-//       }
-//     },
-//     select() {
-//       this.getInput().select();
-//     },
-//     resizeTextarea() {
-//       if (this.$isServer) return;
-//       const { autosize, type } = this;
-//       if (type !== "textarea") return;
-//       if (!autosize) {
-//         this.textareaCalcStyle = {
-//           minHeight: calcTextareaHeight(this.$refs.textarea).minHeight
-//         };
-//         return;
-//       }
-//       const minRows = autosize.minRows;
-//       const maxRows = autosize.maxRows;
+    // methods
+    const handleCompositionStart = () => {
+      isComposing.value = true;
+    };
+    const getInput = () => {
+      return refInput.value || refTextarea.value;
+    };
 
-//       this.textareaCalcStyle = calcTextareaHeight(
-//         this.$refs.textarea,
-//         minRows,
-//         maxRows
-//       );
-//     },
-//     setNativeInputValue() {
-//       const input = this.getInput();
-//       if (!input) return;
-//       if (input.value === this.nativeInputValue) return;
-//       input.value = this.nativeInputValue;
-//     },
-//     handleFocus(event) {
-//       this.focused = true;
-//       this.$emit("focus", event);
-//     },
-//     handleCompositionStart() {
-//       this.isComposing = true;
-//     },
-//     handleCompositionUpdate(event) {
-//       const text = event.target.value;
-//       const lastCharacter = text[text.length - 1] || "";
-//       this.isComposing = !isKorean(lastCharacter);
-//     },
-//     handleCompositionEnd(event) {
-//       if (this.isComposing) {
-//         this.isComposing = false;
-//         this.handleInput(event);
-//       }
-//     },
-//     handleInput(event) {
-//       // should not emit input during composition
-//       // see: https://github.com/ElemeFE/element/issues/10516
-//       if (this.isComposing) return;
+    const focus = () => {
+      getInput().focus();
+    };
 
-//       // hack for https://github.com/ElemeFE/element/issues/8548
-//       // should remove the following line when we don't support IE
-//       if (event.target.value === this.nativeInputValue) return;
+    const blur = () => {
+      getInput().blur();
+    };
 
-//       this.$emit("input", event.target.value);
+    const select = () => {
+      getInput().select();
+    };
 
-//       // ensure native input value is controlled
-//       // see: https://github.com/ElemeFE/element/issues/12850
-//       this.$nextTick(this.setNativeInputValue);
-//     },
-//     handleChange(event) {
-//       this.$emit("change", event.target.value);
-//     },
-//     calcIconOffset(place) {
-//       let elList = [].slice.call(
-//         this.$el.querySelectorAll(`.el-input__${place}`) || []
-//       );
-//       if (!elList.length) return;
-//       let el = null;
-//       for (let i = 0; i < elList.length; i++) {
-//         if (elList[i].parentNode === this.$el) {
-//           el = elList[i];
-//           break;
-//         }
-//       }
-//       if (!el) return;
-//       const pendantMap = {
-//         suffix: "append",
-//         prefix: "prepend"
-//       };
+    function handleBlur(event) {
+      focused.value = false;
+      ctx.emit("blur", event);
 
-//       const pendant = pendantMap[place];
-//       if (this.$slots[pendant]) {
-//         el.style.transform = `translateX(${place === "suffix" ? "-" : ""}${
-//           this.$el.querySelector(`.el-input-group__${pendant}`).offsetWidth
-//         }px)`;
-//       } else {
-//         el.removeAttribute("style");
-//       }
-//     },
-//     updateIconOffset() {
-//       this.calcIconOffset("prefix");
-//       this.calcIconOffset("suffix");
-//     },
-//     clear() {
-//       this.$emit("input", "");
-//       this.$emit("change", "");
-//       this.$emit("clear");
-//     },
-//     handlePasswordVisible() {
-//       this.passwordVisible = !this.passwordVisible;
-//       this.focus();
-//     },
-//     getInput() {
-//       return this.$refs.input || this.$refs.textarea;
-//     },
-//     getSuffixVisible() {
-//       return (
-//         this.$slots.suffix ||
-//         this.suffixIcon ||
-//         this.showClear ||
-//         this.showPassword ||
-//         this.isWordLimitVisible ||
-//         (this.validateState && this.needStatusIcon)
-//       );
-//     }
-//   },
+      // TODO: dispatch to form
+      // if (this.validateEvent) {
+      //   this.dispatch("ElFormItem", "el.form.blur", [this.value]);
+      // }
+    }
 
-//   created() {
-//     this.$on("inputSelect", this.select);
-//   },
+    function resizeTextarea() {
+      // TODO: ssr
+      // if (this.$isServer) return;
+      const { autosize, type } = props;
+      if (type !== "textarea") return;
+      if (!autosize) {
+        textareaCalcStyle.value = {
+          minHeight: calcTextareaHeight(this.$refs.textarea).minHeight
+        };
+        return;
+      }
+      const minRows = autosize.minRows;
+      const maxRows = autosize.maxRows;
+      textareaCalcStyle.value = calcTextareaHeight(
+        refTextarea.value,
+        minRows,
+        maxRows
+      );
+    }
+    const setNativeInputValue = () => {
+      const input = getInput();
+      if (!input) return;
+      if (input.value === nativeInputValue.value) return;
+      input.value = nativeInputValue.value;
+    };
 
-//   mounted() {
-//     this.setNativeInputValue();
-//     this.resizeTextarea();
-//     this.updateIconOffset();
-//   },
+    const handleFocus = event => {
+      focused.value = true;
+      ctx.emit("focus", event);
+    };
 
-//   updated() {
-//     this.$nextTick(this.updateIconOffset);
-//   }
-// };
+    const handleCompositionUpdate = event => {
+      const text = event.target.value;
+      const lastCharacter = text[text.length - 1] || "";
+      isComposing.value = !isKorean(lastCharacter);
+    };
+    const handleCompositionEnd = event => {
+      if (isComposing.value) {
+        isComposing.value = false;
+        handleInput(event);
+      }
+    };
+
+    const handleInput = event => {
+      // should not emit input during composition
+      // see: https://github.com/ElemeFE/element/issues/10516
+      if (isComposing.value) return;
+
+      // hack for https://github.com/ElemeFE/element/issues/8548
+      // should remove the following line when we don't support IE
+      if (event.target.value === nativeInputValue.value) return;
+
+      ctx.emit("update:modelValue", event.target.value);
+
+      // ensure native input value is controlled
+      // see: https://github.com/ElemeFE/element/issues/12850
+      nextTick(setNativeInputValue);
+    };
+
+    const handleChange = event => {
+      ctx.emit("change", event.target.value);
+    };
+
+    const calcIconOffset = place => {
+      // let elList = [].slice.call(
+      //   this.$el.querySelectorAll(`.el-input__${place}`) || []
+      // );
+      // if (!elList.length) return;
+      // let el = null;
+      // for (let i = 0; i < elList.length; i++) {
+      //   if (elList[i].parentNode === this.$el) {
+      //     el = elList[i];
+      //     break;
+      //   }
+      // }
+      // if (!el) return;
+      // const pendantMap = {
+      //   suffix: "append",
+      //   prefix: "prepend"
+      // };
+      // const pendant = pendantMap[place];
+      // if (this.$slots[pendant]) {
+      //   el.style.transform = `translateX(${place === "suffix" ? "-" : ""}${
+      //     this.$el.querySelector(`.el-input-group__${pendant}`).offsetWidth
+      //   }px)`;
+      // } else {
+      //   el.removeAttribute("style");
+      // }
+    };
+
+    const updateIconOffset = () => {
+      calcIconOffset("prefix");
+      calcIconOffset("suffix");
+    };
+
+    const clear = () => {
+      ctx.emit("update:modelValue", "");
+      ctx.emit("change", "");
+      ctx.emit("clear");
+    };
+
+    const handlePasswordVisible = () => {
+      state.passwordVisible = !state.passwordVisible;
+      focus();
+    };
+
+    function getSuffixVisible() {
+      return (
+        ctx.slots.suffix ||
+        props.suffixIcon ||
+        state.showClear ||
+        props.showPassword ||
+        state.isWordLimitVisible ||
+        (state.validateState && state.needStatusIcon)
+      );
+    }
+
+    resizeTextarea();
+    // effect
+    watchEffect(() => {
+      nextTick(resizeTextarea);
+      if (props.validateEvent) {
+        // TODO: dispatch to form
+        //  this.dispatch("ElFormItem", "el.form.change", [val]);
+      }
+    });
+
+    // native input value is set explicitly
+    // do not use v-model / :value in template
+    // see: https://github.com/ElemeFE/element/issues/14521
+    watchEffect(setNativeInputValue);
+
+    // // when change between <input> and <textarea>,
+    // // update DOM dependent value and styles
+    // // https://github.com/ElemeFE/element/issues/14857
+
+    watchEffect(() => {
+      nextTick(() => {
+        setNativeInputValue();
+        resizeTextarea();
+        updateIconOffset();
+      });
+    });
+
+    // TODO: need to know why
+    // created -> use setup()
+    // this.$on("inputSelect", this.select);
+
+    onMounted(() => {
+      setNativeInputValue();
+      resizeTextarea();
+      updateIconOffset();
+    });
+
+    onUpdated(() => {
+      nextTick(updateIconOffset);
+    });
+
+    return {
+      ...toRefs(state),
+      refInput,
+      refTextarea,
+      getSuffixVisible,
+      handleCompositionStart,
+      handleCompositionUpdate,
+      handleCompositionEnd,
+      handleInput,
+      handleFocus,
+      handleBlur,
+      handleChange,
+      handlePasswordVisible,
+      focus,
+      blur,
+      select,
+      clear
+    };
+  }
+});
 </script>
