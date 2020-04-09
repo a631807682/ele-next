@@ -90,7 +90,7 @@
       v-bind="$attrs"
       :disabled="inputDisabled"
       :readonly="readonly"
-      :autocomplete="autoComplete || autocomplete"
+      :autocomplete="autocomplete"
       :style="textareaStyle"
       @focus="handleFocus"
       @blur="handleBlur"
@@ -205,6 +205,7 @@ export default defineComponent({
     const state = reactive({
       hovering: false,
       passwordVisible: false,
+      autocomplete: props.autocomplete,
       needStatusIcon: computed(() => {
         return elForm.statusIcon || false;
       }),
@@ -305,7 +306,7 @@ export default defineComponent({
       if (type !== "textarea") return;
       if (!autosize) {
         textareaCalcStyle.value = {
-          minHeight: calcTextareaHeight(this.$refs.textarea).minHeight
+          minHeight: calcTextareaHeight(refTextarea.value).minHeight
         };
         return;
       }
