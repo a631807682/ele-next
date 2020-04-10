@@ -1,10 +1,9 @@
 import { createVue, waitImmediate } from "../util";
 import { mockWarn } from "@vue/shared";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 
 describe("Input", () => {
   mockWarn();
-
   it("create", async () => {
     let inputFocus = false;
     const input = ref("input");
@@ -39,133 +38,176 @@ describe("Input", () => {
     expect(inputElm.value).toEqual("text");
   });
 
-  //   it('default to empty', () => {
-  //     vm = createVue({
-  //       template: '<el-input/>'
-  //     }, true);
-  //     let inputElm = vm.$el.querySelector('input');
-  //     expect(inputElm.value).to.equal('');
-  //   });
+  it("default to empty", () => {
+    const el = createVue({
+      template: "<el-input/>",
+    });
+    let inputElm = el.querySelector("input");
+    expect(inputElm.value).toEqual("");
+  });
 
-  //   it('disabled', () => {
-  //     vm = createVue({
-  //       template: `
-  //         <el-input disabled>
-  //         </el-input>
-  //       `
-  //     }, true);
-  //     expect(vm.$el.querySelector('input').getAttribute('disabled')).to.ok;
-  //   });
+  it("disabled", () => {
+    const el = createVue({
+      template: `
+          <el-input disabled>
+          </el-input>
+        `,
+    });
+    expect(el.querySelector("input").getAttribute("disabled")).toBeDefined();
+  });
 
-  //   it('suffixIcon', () => {
-  //     vm = createVue({
-  //       template: `
-  //         <el-input suffix-icon="time"></el-input>
-  //       `
-  //     }, true);
-  //     var icon = vm.$el.querySelector('.el-input__icon');
-  //     expect(icon).to.be.exist;
-  //   });
+  it("suffixIcon", () => {
+    const el = createVue({
+      template: `
+          <el-input suffix-icon="time"></el-input>
+        `,
+    });
+    let icon = el.querySelector(".el-input__icon");
+    expect(icon).toBeDefined();
+  });
 
-  //   it('prefixIcon', () => {
-  //     vm = createVue({
-  //       template: `
-  //         <el-input prefix-icon="time"></el-input>
-  //       `
-  //     }, true);
-  //     var icon = vm.$el.querySelector('.el-input__icon');
-  //     expect(icon).to.be.exist;
-  //   });
+  it("prefixIcon", () => {
+    const el = createVue({
+      template: `
+          <el-input prefix-icon="time"></el-input>
+        `,
+    });
+    var icon = el.querySelector(".el-input__icon");
+    expect(icon).toBeDefined();
+  });
 
-  //   it('size', () => {
-  //     vm = createVue({
-  //       template: `
-  //         <el-input size="large">
-  //         </el-input>
-  //       `
-  //     }, true);
+  it("size", () => {
+    const el = createVue({
+      template: `
+          <el-input size="large">
+          </el-input>
+        `,
+    });
 
-  //     expect(vm.$el.classList.contains('el-input--large')).to.true;
-  //   });
+    expect(el.classList.contains("el-input--large")).toEqual(true);
+  });
 
-  //   it('type', () => {
-  //     vm = createVue({
-  //       template: `
-  //         <el-input type="textarea">
-  //         </el-input>
-  //       `
-  //     }, true);
+  it("type", () => {
+    const el = createVue({
+      template: `
+          <el-input type="textarea">
+          </el-input>
+        `,
+    });
 
-  //     expect(vm.$el.classList.contains('el-textarea')).to.true;
-  //   });
+    expect(el.classList.contains("el-textarea")).toEqual(true);
+  });
 
-  //   it('rows', () => {
-  //     vm = createVue({
-  //       template: `
-  //         <el-input type="textarea" :rows="3">
-  //         </el-input>
-  //       `
-  //     }, true);
-  //     expect(vm.$el.querySelector('.el-textarea__inner').getAttribute('rows')).to.be.equal('3');
-  //   });
+  it("rows", () => {
+    const el = createVue({
+      template: `
+          <el-input type="textarea" :rows="3">
+          </el-input>
+        `,
+    });
+    expect(
+      el.querySelector(".el-textarea__inner").getAttribute("rows")
+    ).toEqual("3");
+  });
 
-  //   // Github issue #2836
-  //   it('resize', async() => {
-  //     vm = createVue({
-  //       template: `
-  //         <div>
-  //           <el-input type="textarea" :resize="resize"></el-input>
-  //         </div>
-  //       `,
-  //       data: {
-  //         resize: 'none'
-  //       }
-  //     }, true);
-  //     await waitImmediate();
-  //     expect(vm.$el.querySelector('.el-textarea__inner').style.resize).to.be.equal(vm.resize);
-  //     vm.resize = 'horizontal';
-  //     await waitImmediate();
-  //     expect(vm.$el.querySelector('.el-textarea__inner').style.resize).to.be.equal(vm.resize);
-  //   });
+  // Github issue #2836
+  it("resize", async () => {
+    const resize = ref("none");
+    const el = createVue({
+      template: `
+          <div>
+            <el-input type="textarea" :resize="resize"></el-input>
+          </div>
+        `,
+      setup() {
+        return { resize };
+      },
+    });
+    await waitImmediate();
+    const elInner = el.querySelector(".el-textarea__inner") as HTMLElement;
+    expect(elInner.style.resize).toEqual(resize.value);
+    resize.value = "horizontal";
+    await waitImmediate();
+    expect(elInner.style.resize).toEqual(resize.value);
+  });
 
-  //   it('autosize', async() => {
-  //     vm = createVue({
-  //       template: `
-  //         <div>
-  //           <el-input
-  //             ref="limitSize"
-  //             type="textarea"
-  //             :autosize="{minRows: 3, maxRows: 5}"
-  //             v-model="textareaValue"
-  //           >
-  //           </el-input>
-  //           <el-input
-  //             ref="limitlessSize"
-  //             type="textarea"
-  //             autosize
-  //             v-model="textareaValue"
-  //           >
-  //           </el-input>
-  //         </div>
-  //       `,
-  //       data() {
-  //         return {
-  //           textareaValue: 'sda\ndasd\nddasdsda\ndasd\nddasdsda\ndasd\nddasdsda\ndasd\nddasd'
-  //         };
-  //       }
-  //     }, true);
+  it("autosize", async () => {
+    let limitSizeInput;
+    let limitlessSizeInput;
+    let longText =
+      "sda\ndasd\nddasdsda\ndasd\nddasdsda\ndasd\nddasdsda\ndasd\nddasd";
 
-  //     var limitSizeInput = vm.$refs.limitSize;
-  //     var limitlessSizeInput = vm.$refs.limitlessSize;
-  //     expect(limitSizeInput.textareaStyle.height).to.be.equal('117px');
-  //     expect(limitlessSizeInput.textareaStyle.height).to.be.equal('201px');
+    const textareaValue = ref(longText);
 
-  //     vm.textareaValue = '';
+    // jsdom doesn't do any actual rendering
+    // maybe karma should be used
+    // see: https://stackoverflow.com/questions/47823616/mocking-clientheight-and-scrollheight-in-react-enzyme-for-test?r=SearchResults
+    jest
+      .spyOn(Element.prototype, "scrollHeight", "get")
+      .mockImplementation(function (this) {
+        if (this.value === "") {
+          return 31;
+        } else if (this.value === longText) {
+          return 196;
+        } else {
+          return 0;
+        }
+      });
 
-  //     await wait();
-  //     expect(limitSizeInput.textareaStyle.height).to.be.equal('75px');
-  //     expect(limitlessSizeInput.textareaStyle.height).to.be.equal('33px');
-  //   });
+    const getComputedStyle = window.getComputedStyle;
+    jest
+      .spyOn(window as any, "getComputedStyle")
+      .mockImplementation((ele: HTMLTextAreaElement) => {
+        if (ele) {
+          ele.style.paddingBottom = "5px";
+          ele.style.paddingTop = "5px";
+          ele.style.boxSizing = "border-box";
+          return getComputedStyle(ele);
+        }
+      });
+
+    createVue({
+      template: `
+          <div>
+            <el-input
+              ref="limitSize"
+              type="textarea"
+              :autosize="{
+                minRows: 3,
+                maxRows: 5,
+              }"
+              v-model="textareaValue"
+            >
+            </el-input>
+            <el-input
+              ref="limitlessSize"
+              type="textarea"
+              autosize
+              v-model="textareaValue"
+            >
+            </el-input>
+          </div>
+        `,
+      setup() {
+        const limitSize = ref(null);
+        const limitlessSize = ref(null);
+        onMounted(() => {
+          limitSizeInput = limitSize.value;
+          limitlessSizeInput = limitlessSize.value;
+        });
+        return { textareaValue, limitSize, limitlessSize };
+      },
+    });
+
+    await waitImmediate();
+    expect(limitSizeInput.textareaStyle.height).toEqual("117px");
+    expect(limitlessSizeInput.textareaStyle.height).toEqual("198px");
+
+    textareaValue.value = "";
+    await waitImmediate();
+    expect(limitSizeInput.textareaStyle.height).toEqual("75px");
+    expect(limitlessSizeInput.textareaStyle.height).toEqual("33px");
+  });
 
   //   it('focus', async() => {
   //     vm = createVue({
