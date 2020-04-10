@@ -111,7 +111,6 @@ import {
   watchEffect,
   reactive,
   toRefs,
-  onMounted,
   onUpdated,
   defineComponent,
   PropType,
