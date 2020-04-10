@@ -416,42 +416,32 @@ export default defineComponent({
       );
     }
 
-    resizeTextarea();
-    // effect
-    watchEffect(() => {
-      nextTick(resizeTextarea);
-      if (props.validateEvent) {
-        // TODO: dispatch to form
-        //  this.dispatch("ElFormItem", "el.form.change", [val]);
-      }
-    });
-
     // native input value is set explicitly
     // do not use v-model / :value in template
     // see: https://github.com/ElemeFE/element/issues/14521
     watchEffect(setNativeInputValue);
 
-    // // when change between <input> and <textarea>,
-    // // update DOM dependent value and styles
-    // // https://github.com/ElemeFE/element/issues/14857
+    // when change between <input> and <textarea>,
+    // update DOM dependent value and styles
+    // https://github.com/ElemeFE/element/issues/14857
+    watchEffect(() => {
+      nextTick(resizeTextarea);
+    });
+
+    // TODO: dispatch to form
+    watchEffect(() => {
+      if (props.validateEvent) {
+        //  this.dispatch("ElFormItem", "el.form.change", [val]);
+      }
+    });
 
     watchEffect(() => {
-      nextTick(() => {
-        setNativeInputValue();
-        resizeTextarea();
-        updateIconOffset();
-      });
+      nextTick(updateIconOffset);
     });
 
     // TODO: need to know why
     // created -> use setup()
     // this.$on("inputSelect", this.select);
-
-    onMounted(() => {
-      setNativeInputValue();
-      resizeTextarea();
-      updateIconOffset();
-    });
 
     onUpdated(() => {
       nextTick(updateIconOffset);
