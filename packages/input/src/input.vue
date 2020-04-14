@@ -67,8 +67,8 @@
           ></i>
           <span v-if="isWordLimitVisible" class="el-input__count">
             <span class="el-input__count-inner"
-              >{{ textLength }}/{{ upperLimit }}</span
-            >
+              >{{ textLength }}/{{ upperLimit }}
+            </span>
           </span>
         </span>
         <i
@@ -104,8 +104,8 @@
     <span
       v-if="isWordLimitVisible && type === 'textarea'"
       class="el-input__count"
-      >{{ textLength }}/{{ upperLimit }}</span
-    >
+      >{{ textLength }}/{{ upperLimit }}
+    </span>
   </div>
 </template>
 <script lang="ts">
