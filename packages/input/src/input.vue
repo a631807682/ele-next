@@ -128,8 +128,6 @@ import { Resizability, InputType, AutoSize } from "./type";
 export default defineComponent({
   name: "ElInput",
 
-  componentName: "ElInput",
-
   // TODO: dispatch to form
   // mixins: [emitter, Migrating],
 
