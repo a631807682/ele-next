@@ -1,7 +1,7 @@
 import { App } from "vue";
-import Icon from "./src/icon.vue";
-const install = function (app: App) {
-  app.component(Icon.name, Icon);
+import Comp from "./src/icon.vue";
+export const install = function (app: App) {
+  app.component(Comp.name, Comp);
 };
 
-export { install, Icon };
+export const Icon = Comp;

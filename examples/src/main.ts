@@ -5,6 +5,6 @@ import "packages/theme-chalk/src/index.scss";
 
 let VueApp = createApp(App);
 VueApp.use(Element, {
-  size: "mini",
+  // size: "mini",
 });
 VueApp.mount("#app");

@@ -1,7 +1,8 @@
 import { App } from "vue";
-import Button from "./src/button.vue";
-const install = function (app: App) {
-  app.component(Button.name, Button);
+import Comp from "./src/button.vue";
+export const install = function (app: App) {
+  app.component(Comp.name, Comp);
 };
 
-export { install, Button };
+export const Button = Comp;
+export * from "./src/type";

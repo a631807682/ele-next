@@ -1,7 +1,8 @@
 import { App } from "vue";
-import Input from "./src/input.vue";
-const install = function (app: App) {
-  app.component(Input.name, Input);
+import Comp from "./src/input.vue";
+export const install = function (app: App) {
+  app.component(Comp.name, Comp);
 };
 
-export { install, Input };
+export const Input = Comp;
+export * from "./src/type";

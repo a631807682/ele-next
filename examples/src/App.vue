@@ -1,33 +1,48 @@
 <template>
-  <div>
-    <el-button loading type="primary" @click="inc">{{ count }}</el-button>
-    <el-button type="warning" size="medium">large</el-button>
-  </div>
+  <el-input
+    :type="type"
+    :autosize="autosize"
+    v-model="textareaValue"
+    clearable
+    @change="handleChange"
+  ></el-input>
+  <el-button type="primary" @click="handleClick">change input type</el-button>
 </template>
 
 <script lang="ts">
-import { ref } from "vue";
+import { defineComponent, toRefs, reactive } from "vue";
+import { InputType, AutoSize } from "src";
 
-export default {
+export default defineComponent({
   setup() {
-    const count = ref(0);
-    const inc = (event: Event) => {
-      count.value++;
+    const state: {
+      type: InputType;
+      textareaValue: string;
+      autosize: boolean | AutoSize;
+    } = reactive({
+      type: "textarea",
+      textareaValue:
+        "sda\ndasd\nddasdsda\ndasd\nddasdsda\ndasd\nddasdsda\ndasd\nddasd",
+      autosize: true
+    });
+
+    const handleChange = e => {
+      console.log("handleChange", e);
+    };
+
+    const handleClick = () => {
+      if (state.type === "text") {
+        state.type = "textarea";
+      } else {
+        state.type = "text";
+      }
     };
 
     return {
-      count,
-      inc
+      ...toRefs(state),
+      handleChange,
+      handleClick
     };
   }
-};
+});
 </script>
-
-<style scoped>
-img {
-  width: 200px;
-}
-h1 {
-  font-family: Arial, Helvetica, sans-serif;
-}
-</style>

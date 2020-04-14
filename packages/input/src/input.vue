@@ -123,17 +123,7 @@ import { useForm } from "src/utils/injection/form";
 import { isNumber, isKorean } from "src/utils/share";
 import calcTextareaHeight from "./calcTextareaHeight";
 import { ElementUIOptions, ElementUIComponentSize } from "src/component";
-
-export type Resizability = "none" | "both" | "horizontal" | "vertical";
-export type InputType = "text" | "textarea";
-/** Controls how el-input component automatically sets size */
-export interface AutoSize {
-  /** Minimum rows to show */
-  minRows: number;
-
-  /** Maximum rows to show */
-  maxRows: number;
-}
+import { Resizability, InputType, AutoSize } from "./type";
 
 export default defineComponent({
   name: "ElInput",
@@ -159,8 +149,7 @@ export default defineComponent({
       default: "text"
     },
     autosize: {
-      type: [Boolean, Object],
-      // type: [Boolean, Object as PropType<AutoSize>],// vuter error
+      type: [Boolean, Object] as PropType<boolean | AutoSize>,
       default: false
     },
     autocomplete: {

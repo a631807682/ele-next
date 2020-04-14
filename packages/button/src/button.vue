@@ -31,19 +31,8 @@
 <script lang="ts">
 import { computed, reactive, toRefs, defineComponent, PropType } from "vue";
 import { ElementUIOptions, ElementUIComponentSize } from "src/component";
+import { ButtonType, ButtonNativeType } from "./type";
 import { useForm } from "src/utils/injection/form";
-
-/** Button type */
-export type ButtonType =
-  | "primary"
-  | "success"
-  | "warning"
-  | "danger"
-  | "info"
-  | "text";
-
-/** Same as native button's type */
-export type ButtonNativeType = "button" | "submit" | "reset" | "menu";
 
 export default defineComponent({
   name: "ElButton",

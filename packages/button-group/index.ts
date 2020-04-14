@@ -1,7 +1,7 @@
 import { App } from "vue";
-import ButtonGroup from "../button/src/button-group.vue";
-const install = function (app: App) {
-  app.component(ButtonGroup.name, ButtonGroup);
+import Comp from "../button/src/button-group.vue";
+export const install = function (app: App) {
+  app.component(Comp.name, Comp);
 };
 
-export { install, ButtonGroup };
+export const ButtonGroup = Comp;
