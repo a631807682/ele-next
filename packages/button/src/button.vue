@@ -1,4 +1,4 @@
-  <!-- In v3 all v-on listeners will fallthrough to child component root by default
+<!-- In v3 all v-on listeners will fallthrough to child component root by default
   see: https://github.com/vuejs/vue-next/issues/813 
   can not write root level common in alpha.11 
   see：https://github.com/vuejs/vue-next/issues/943
@@ -17,8 +17,8 @@
         'is-loading': loading,
         'is-plain': plain,
         'is-round': round,
-        'is-circle': circle,
-      },
+        'is-circle': circle
+      }
     ]"
   >
     <i class="el-icon-loading" v-if="loading"></i>
@@ -29,26 +29,26 @@
   </button>
 </template>
 <script lang="ts">
-import { computed, reactive, toRefs, defineComponent, PropType } from "vue";
-import { ElementUIOptions, ElementUIComponentSize } from "src/component";
-import { ButtonType, ButtonNativeType } from "./type";
-import { useForm } from "src/utils/injection/form";
+import { computed, reactive, toRefs, defineComponent, PropType } from 'vue'
+import { ElementUIOptions, ElementUIComponentSize } from 'src/component'
+import { ButtonType, ButtonNativeType } from './type'
+import { useForm } from 'src/utils/injection/form'
 
 export default defineComponent({
-  name: "ElButton",
+  name: 'ElButton',
   props: {
     type: {
       type: String as PropType<ButtonType>,
-      default: "default"
+      default: 'default'
     },
     size: String as PropType<ElementUIComponentSize>,
     icon: {
       type: String,
-      default: ""
+      default: ''
     },
     nativeType: {
       type: String as PropType<ButtonNativeType>,
-      default: "button"
+      default: 'button'
     },
     loading: Boolean,
     disabled: Boolean,
@@ -58,22 +58,22 @@ export default defineComponent({
     circle: Boolean
   },
   setup(props) {
-    const { elForm, elFormItem } = useForm();
+    const { elForm, elFormItem } = useForm()
 
     const state = reactive({
       buttonSize: computed(() => {
         return (
           props.size || elFormItem.elFormItemSize || ElementUIOptions.value.size
-        );
+        )
       }),
       buttonDisabled: computed(() => {
-        return props.disabled || elForm.disabled;
+        return props.disabled || elForm.disabled
       })
-    });
+    })
 
     return {
       ...toRefs(state)
-    };
+    }
   }
-});
+})
 </script>

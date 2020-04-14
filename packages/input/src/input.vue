@@ -11,8 +11,8 @@
         'el-input-group--prepend': $slots.prepend,
         'el-input--prefix': $slots.prefix || prefixIcon,
         'el-input--suffix':
-          $slots.suffix || suffixIcon || clearable || showPassword,
-      },
+          $slots.suffix || suffixIcon || clearable || showPassword
+      }
     ]"
     @mouseenter="hovering = true"
     @mouseleave="hovering = false"
@@ -66,7 +66,9 @@
             @click="handlePasswordVisible"
           ></i>
           <span v-if="isWordLimitVisible" class="el-input__count">
-            <span class="el-input__count-inner">{{ textLength }}/{{ upperLimit }}</span>
+            <span class="el-input__count-inner"
+              >{{ textLength }}/{{ upperLimit }}</span
+            >
           </span>
         </span>
         <i
@@ -102,7 +104,8 @@
     <span
       v-if="isWordLimitVisible && type === 'textarea'"
       class="el-input__count"
-    >{{ textLength }}/{{ upperLimit }}</span>
+      >{{ textLength }}/{{ upperLimit }}</span
+    >
   </div>
 </template>
 <script lang="ts">
@@ -118,15 +121,15 @@ import {
   Ref,
   watch,
   onMounted
-} from "vue";
-import { useForm } from "src/utils/injection/form";
-import { isNumber, isKorean } from "src/utils/share";
-import calcTextareaHeight from "./calcTextareaHeight";
-import { ElementUIOptions, ElementUIComponentSize } from "src/component";
-import { Resizability, InputType, AutoSize } from "./type";
+} from 'vue'
+import { useForm } from 'src/utils/injection/form'
+import { isNumber, isKorean } from 'src/utils/share'
+import calcTextareaHeight from './calcTextareaHeight'
+import { ElementUIOptions, ElementUIComponentSize } from 'src/component'
+import { Resizability, InputType, AutoSize } from './type'
 
 export default defineComponent({
-  name: "ElInput",
+  name: 'ElInput',
 
   // TODO: dispatch to form
   // mixins: [emitter, Migrating],
@@ -144,7 +147,7 @@ export default defineComponent({
     readonly: Boolean,
     type: {
       type: String as PropType<InputType>,
-      default: "text"
+      default: 'text'
     },
     autosize: {
       type: [Boolean, Object] as PropType<boolean | AutoSize>,
@@ -152,7 +155,7 @@ export default defineComponent({
     },
     autocomplete: {
       type: String,
-      default: "off"
+      default: 'off'
     },
     validateEvent: {
       type: Boolean,
@@ -177,21 +180,21 @@ export default defineComponent({
   },
 
   setup(props, ctx) {
-    const { elForm, elFormItem } = useForm();
-    const textareaCalcStyle = ref({});
-    const focused: Ref<boolean> = ref(false);
-    const isComposing: Ref<boolean> = ref(false);
+    const { elForm, elFormItem } = useForm()
+    const textareaCalcStyle = ref({})
+    const focused: Ref<boolean> = ref(false)
+    const isComposing: Ref<boolean> = ref(false)
     // ref template
-    const refInput: Ref<HTMLInputElement> = ref(null);
-    const refTextarea: Ref<HTMLTextAreaElement> = ref(null);
+    const refInput: Ref<HTMLInputElement> = ref(null)
+    const refTextarea: Ref<HTMLTextAreaElement> = ref(null)
 
     const nativeInputValue = computed(() => {
       return props.modelValue === null || props.modelValue === undefined
-        ? ""
-        : String(props.modelValue as number);
-    });
+        ? ''
+        : String(props.modelValue as number)
+    })
 
-    const nativeInputType = computed(() => props.type);
+    const nativeInputType = computed(() => props.type)
 
     const state = reactive({
       hovering: false,
@@ -204,28 +207,28 @@ export default defineComponent({
       autosize: props.autosize,
       type: nativeInputType,
       needStatusIcon: computed(() => {
-        return elForm.statusIcon || false;
+        return elForm.statusIcon || false
       }),
       validateState: computed(() => {
-        return elFormItem ? elFormItem.validateState : "";
+        return elFormItem ? elFormItem.validateState : ''
       }),
       inputSize: computed(() => {
         return (
           props.size || elFormItem.elFormItemSize || ElementUIOptions.value.size
-        );
+        )
       }),
       inputDisabled: computed(() => {
-        return props.disabled || elForm.disabled;
+        return props.disabled || elForm.disabled
       }),
       validateIcon: computed(() => {
         return {
-          validating: "el-icon-loading",
-          success: "el-icon-circle-check",
-          error: "el-icon-circle-close"
-        }[state.validateState];
+          validating: 'el-icon-loading',
+          success: 'el-icon-circle-check',
+          error: 'el-icon-circle-close'
+        }[state.validateState]
       }),
       textareaStyle: computed(() => {
-        return { ...textareaCalcStyle.value, ...{ resize: props.resize } };
+        return { ...textareaCalcStyle.value, ...{ resize: props.resize } }
       }),
       showClear: computed(() => {
         return (
@@ -234,7 +237,7 @@ export default defineComponent({
           !props.readonly &&
           !!nativeInputValue.value &&
           (focused.value || state.hovering)
-        );
+        )
       }),
       showPwdVisible: computed(() => {
         return (
@@ -242,52 +245,52 @@ export default defineComponent({
           !state.inputDisabled &&
           !props.readonly &&
           (!!nativeInputValue.value || focused.value)
-        );
+        )
       }),
       isWordLimitVisible: computed(() => {
         return (
           props.showWordLimit &&
           ctx.attrs.maxlength &&
-          (props.type === "text" || props.type === "textare") &&
+          (props.type === 'text' || props.type === 'textare') &&
           !state.inputDisabled &&
           !props.readonly &&
           !props.showPassword
-        );
+        )
       }),
       upperLimit: computed(() => ctx.attrs.maxlength),
       textLength: computed(() => {
         if (isNumber(props.modelValue)) {
-          return String(props.modelValue).length;
+          return String(props.modelValue).length
         }
-        return ((props.modelValue as string) || "").length;
+        return ((props.modelValue as string) || '').length
       }),
       inputExceed: computed(() => {
-        return state.isWordLimitVisible && state.textLength > state.upperLimit;
+        return state.isWordLimitVisible && state.textLength > state.upperLimit
       })
-    });
+    })
 
     // methods
     const handleCompositionStart = () => {
-      isComposing.value = true;
-    };
+      isComposing.value = true
+    }
     const getInput = () => {
-      return refInput.value || refTextarea.value;
-    };
+      return refInput.value || refTextarea.value
+    }
 
     const focus = () => {
-      getInput().focus();
-    };
+      getInput().focus()
+    }
 
     const blur = () => {
-      getInput().blur();
-    };
+      getInput().blur()
+    }
 
     const select = () => {
-      getInput().select();
-    };
+      getInput().select()
+    }
 
     function handleBlur(event) {
-      focused.value = false;
+      focused.value = false
 
       // TODO: dispatch to form
       // if (this.validateEvent) {
@@ -299,66 +302,66 @@ export default defineComponent({
       // TODO: ssr
       // if (this.$isServer) return;
 
-      if (nativeInputType.value !== "textarea") return;
+      if (nativeInputType.value !== 'textarea') return
       if (!state.autosize) {
         textareaCalcStyle.value = {
           minHeight: calcTextareaHeight(refTextarea.value).minHeight
-        };
-        return;
+        }
+        return
       }
 
-      const { minRows, maxRows } = state.autosize;
+      const { minRows, maxRows } = state.autosize
       textareaCalcStyle.value = calcTextareaHeight(
         refTextarea.value,
         minRows,
         maxRows
-      );
+      )
     }
     const setNativeInputValue = () => {
-      const input = getInput();
-      if (!input) return;
-      if (input.value === nativeInputValue.value) return;
-      input.value = nativeInputValue.value;
-    };
+      const input = getInput()
+      if (!input) return
+      if (input.value === nativeInputValue.value) return
+      input.value = nativeInputValue.value
+    }
 
     const handleFocus = event => {
-      focused.value = true;
-    };
+      focused.value = true
+    }
 
     const handleCompositionUpdate = event => {
-      const text = event.target.value;
-      const lastCharacter = text[text.length - 1] || "";
-      isComposing.value = !isKorean(lastCharacter);
-    };
+      const text = event.target.value
+      const lastCharacter = text[text.length - 1] || ''
+      isComposing.value = !isKorean(lastCharacter)
+    }
     const handleCompositionEnd = event => {
       if (isComposing.value) {
-        isComposing.value = false;
-        handleInput(event);
+        isComposing.value = false
+        handleInput(event)
       }
-    };
+    }
 
     // TODO: Stop the event from bubbling similar to handleChange
     const handleInput = event => {
       // should not emit input during composition
       // see: https://github.com/ElemeFE/element/issues/10516
-      if (isComposing.value) return;
+      if (isComposing.value) return
 
       // hack for https://github.com/ElemeFE/element/issues/8548
       // should remove the following line when we don't support IE
-      if (event.target.value === nativeInputValue.value) return;
+      if (event.target.value === nativeInputValue.value) return
 
-      ctx.emit("update:modelValue", event.target.value);
+      ctx.emit('update:modelValue', event.target.value)
 
       // ensure native input value is controlled
       // see: https://github.com/ElemeFE/element/issues/12850
-      nextTick(setNativeInputValue);
-    };
+      nextTick(setNativeInputValue)
+    }
 
     // TODO: Stop the event from bubbling
     // https://github.com/vuejs/vue-next/issues/916
     const handleChange = event => {
       // ctx.emit("change", event.target.value);
-    };
+    }
 
     const calcIconOffset = place => {
       // let elList = [].slice.call(
@@ -385,23 +388,23 @@ export default defineComponent({
       // } else {
       //   el.removeAttribute("style");
       // }
-    };
+    }
 
     const updateIconOffset = () => {
-      calcIconOffset("prefix");
-      calcIconOffset("suffix");
-    };
+      calcIconOffset('prefix')
+      calcIconOffset('suffix')
+    }
 
     const clear = () => {
-      ctx.emit("update:modelValue", "");
-      ctx.emit("change", "");
-      ctx.emit("clear");
-    };
+      ctx.emit('update:modelValue', '')
+      ctx.emit('change', '')
+      ctx.emit('clear')
+    }
 
     const handlePasswordVisible = () => {
-      state.passwordVisible = !state.passwordVisible;
-      focus();
-    };
+      state.passwordVisible = !state.passwordVisible
+      focus()
+    }
 
     function getSuffixVisible() {
       return (
@@ -411,49 +414,49 @@ export default defineComponent({
         state.showPassword ||
         state.isWordLimitVisible ||
         (state.validateState && state.needStatusIcon)
-      );
+      )
     }
 
     // native input value is set explicitly
     // do not use v-model / :value in template
     // see: https://github.com/ElemeFE/element/issues/14521
     watch(nativeInputValue, () => {
-      setNativeInputValue();
+      setNativeInputValue()
 
       // when change between <input> and <textarea>,
       // update DOM dependent value and styles
       // https://github.com/ElemeFE/element/issues/14857
-      nextTick(resizeTextarea);
+      nextTick(resizeTextarea)
       // // TODO: dispatch to form
       if (state.validateEvent) {
         //  this.dispatch("ElFormItem", "el.form.change", [val]);
       }
-    });
+    })
 
     // when change between <input> and <textarea>,
     // update DOM dependent value and styles
     // https://github.com/ElemeFE/element/issues/14857
     watch(nativeInputType, () => {
       nextTick(() => {
-        setNativeInputValue();
-        resizeTextarea();
-        updateIconOffset();
-      });
-    });
+        setNativeInputValue()
+        resizeTextarea()
+        updateIconOffset()
+      })
+    })
 
     // TODO: need to know why
     // created -> use setup()
     // this.$on("inputSelect", this.select);
 
     onMounted(() => {
-      setNativeInputValue();
-      resizeTextarea();
-      updateIconOffset();
-    });
+      setNativeInputValue()
+      resizeTextarea()
+      updateIconOffset()
+    })
 
     onUpdated(() => {
-      nextTick(updateIconOffset);
-    });
+      nextTick(updateIconOffset)
+    })
 
     return {
       ...toRefs(state),
@@ -472,7 +475,7 @@ export default defineComponent({
       blur,
       select,
       clear
-    };
+    }
   }
-});
+})
 </script>

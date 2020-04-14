@@ -1,10 +1,10 @@
 <template>
   <div class="el-button-group">
-    <slot></slot>
+    <slot> </slot>
   </div>
 </template>
 <script>
 export default {
-  name: "ElButtonGroup"
-};
+  name: 'ElButtonGroup'
+}
 </script>

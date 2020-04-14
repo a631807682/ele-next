@@ -4,9 +4,9 @@
 
 <script>
 export default {
-  name: "ElIcon",
+  name: 'ElIcon',
   props: {
-    name: String,
-  },
-};
+    name: String
+  }
+}
 </script>
