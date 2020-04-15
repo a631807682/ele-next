@@ -444,10 +444,6 @@ export default defineComponent({
       })
     })
 
-    // TODO: need to know why
-    // created -> use setup()
-    // this.$on("inputSelect", this.select);
-
     onMounted(() => {
       setNativeInputValue()
       resizeTextarea()
