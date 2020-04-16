@@ -22,7 +22,7 @@ jobs:
       - name: "Run Test"
         run: "npm run coverage"
       - name: Coverage Report
-      - uses: devmasx/coverage-check-action@v1.1.0
+        uses: devmasx/coverage-check-action@v1.1.0
         with:
           type: lcov
           result_path: coverage/lcov.info
