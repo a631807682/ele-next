@@ -20,14 +20,11 @@ jobs:
       - name: "Install Package"
         run: "yarn"
       - name: "Run Test"
-        run: "npm test"
-  coverage:
-    needs: [ test ]
-    name: "Coverage"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Jest Code Coverage Report
-        uses: ziishaned/jest-reporter-action@0.1.1
+        run: "npm run coverage"
+      - name: Coverage Report
+        uses: devmasx/coverage-check-action@v1.1.0
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          test-command: "yarn jest --coverage"
+          type: lcov
+          result_path: coverage/lcov.info
+          min_coverage: 90
+          token: ${{secrets.GITHUB_TOKEN}}
