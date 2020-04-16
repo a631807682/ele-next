@@ -26,8 +26,8 @@ jobs:
     name: "Coverage"
     runs-on: ubuntu-latest
     steps:
-      - name: "Use GitHub Actions"
-        uses: ziishaned/jest-reporter-action@v0.1.1
+      - name: Jest Code Coverage Report
+        uses: ziishaned/jest-reporter-action@0.1.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           test-command: "yarn jest --coverage"
