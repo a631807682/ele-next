@@ -21,8 +21,10 @@ jobs:
         run: "yarn"
       - name: "Run Test"
         run: "npm run coverage"
-      - name: Jest Code Coverage Report
-        uses: romeovs/lcov-reporter-action@v0.2.16
+      - name: Coverage Report
+      - uses: devmasx/coverage-check-action@v1.1.0
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          lcov-file: ./coverage/lcov.info
+          type: lcov
+          result_path: coverage/lcov.info
+          min_coverage: 90
+          token: ${{secrets.GITHUB_TOKEN}}
