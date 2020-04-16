@@ -14,4 +14,13 @@ module.exports = {
     "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
     ".*\\.(vue)$": "<rootDir>/test/unit/vue-jest",
   },
+  coverageDirectory: 'coverage',
+  coverageReporters: ['html', 'lcov', 'text'],
+  collectCoverageFrom: [
+    'packages/**/*.{ts,vue}',
+    '!packages/theme-chalk/**',
+    '!packages/icon/**',
+    '!packages/button-group/**',
+    '!packages/button/**/button-group.vue',
+  ],
 };

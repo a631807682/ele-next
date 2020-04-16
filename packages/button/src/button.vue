@@ -1,8 +1,3 @@
-<!-- In v3 all v-on listeners will fallthrough to child component root by default
-  see: https://github.com/vuejs/vue-next/issues/813 
-  can not write root level common in alpha.11 
-  see：https://github.com/vuejs/vue-next/issues/943
-  -->
 <template>
   <button
     class="el-button"
@@ -17,8 +12,8 @@
         'is-loading': loading,
         'is-plain': plain,
         'is-round': round,
-        'is-circle': circle
-      }
+        'is-circle': circle,
+      },
     ]"
   >
     <i class="el-icon-loading" v-if="loading"></i>
@@ -39,23 +34,23 @@ export default defineComponent({
   props: {
     type: {
       type: String as PropType<ButtonType>,
-      default: 'default'
+      default: 'default',
     },
     size: String as PropType<ElementUIComponentSize>,
     icon: {
       type: String,
-      default: ''
+      default: '',
     },
     nativeType: {
       type: String as PropType<ButtonNativeType>,
-      default: 'button'
+      default: 'button',
     },
     loading: Boolean,
     disabled: Boolean,
     plain: Boolean,
     autofocus: Boolean,
     round: Boolean,
-    circle: Boolean
+    circle: Boolean,
   },
   setup(props) {
     const { elForm, elFormItem } = useForm()
@@ -68,12 +63,12 @@ export default defineComponent({
       }),
       buttonDisabled: computed(() => {
         return props.disabled || elForm.disabled
-      })
+      }),
     })
 
     return {
-      ...toRefs(state)
+      ...toRefs(state),
     }
-  }
+  },
 })
 </script>
