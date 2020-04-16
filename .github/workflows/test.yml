@@ -20,12 +20,7 @@ jobs:
       - name: "Install Package"
         run: "yarn"
       - name: "Run Test"
-        run: "npm test"
-  coverage:
-    needs: [ test ]
-    name: "Coverage"
-    runs-on: ubuntu-latest
-    steps:
+        run: "npm run coverage"
       - name: Jest Code Coverage Report
         uses: romeovs/lcov-reporter-action@v0.2.17
         with:
