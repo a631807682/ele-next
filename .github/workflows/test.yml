@@ -7,7 +7,7 @@ on:
     branches: [master]
 
 jobs:
-  build:
+  test:
     name: "Run Test"
     runs-on: ubuntu-latest
     steps:
@@ -21,3 +21,13 @@ jobs:
         run: "yarn"
       - name: "Run Test"
         run: "npm test"
+  coverage:
+    needs: [ test ]
+    name: "Coverage"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Use GitHub Actions"
+        uses: ziishaned/jest-reporter-action@v0.1.1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          test-command: "yarn jest --coverage"
