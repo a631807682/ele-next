@@ -10,9 +10,8 @@ module.exports = {
     "^src/(.*)$": "<rootDir>/src/$1",
   },
   transform: {
-    "^.+\\.ts$": "<rootDir>/node_modules/ts-jest",
     "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
-    ".*\\.(vue)$": "<rootDir>/test/unit/vue-jest",
+    "^.+\\.vue$": "<rootDir>/node_modules/vue-jest"
   },
   coverageDirectory: 'coverage',
   coverageReporters: ['html', 'lcov', 'text'],

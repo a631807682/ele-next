@@ -5,7 +5,7 @@
     "build": "webpack --env.prod",
     "test": "jest",
     "lint": "prettier --write  \"packages/**/*.?(ts|vue)\"",
-    "coverage":"jest --coverage"
+    "coverage": "jest --coverage"
   },
   "version": "v0.0.0-alpha.0",
   "gitHooks": {
@@ -31,13 +31,12 @@
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
-    "@babel/plugin-transform-modules-commonjs": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
     "@types/jest": "^25.2.1",
     "@types/mocha": "^7.0.2",
     "@vue/compiler-sfc": "3.0.0-beta.1",
     "babel-jest": "^25.3.0",
     "babel-loader": "^8.1.0",
-    "babel-preset-env": "^1.7.0",
     "css-loader": "^3.5.2",
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.2.0",
@@ -54,6 +53,7 @@
     "typescript": "^3.8.3",
     "uppercamelcase": "^3.0.0",
     "url-loader": "^4.1.0",
+    "vue-jest": "^5.0.0-alpha.0",
     "vue-loader": "^16.0.0-alpha.3",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
