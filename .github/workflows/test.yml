@@ -26,5 +26,5 @@ jobs:
         with:
           type: lcov
           result_path: coverage/lcov.info
-          min_coverage: 90
+          min_coverage: 60
           token: ${{secrets.GITHUB_TOKEN}}
