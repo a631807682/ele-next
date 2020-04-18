@@ -45,7 +45,7 @@
 - [x] Icon
 - [ ] Image
 - [ ] InfiniteScroll
-- [ ] Input
+- [x] Input
 - [ ] InputNumber
 - [ ] Link
 - [ ] Loading
