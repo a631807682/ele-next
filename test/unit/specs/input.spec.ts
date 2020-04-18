@@ -1,12 +1,15 @@
-import { createVue, waitImmediate, triggerEvent } from "../util";
-import { mockWarn } from "@vue/shared";
-import { ref, onMounted } from "vue";
+/**
+ * @jest-environment jsdom-sixteen
+ */
+import { createVue, waitImmediate, triggerEvent } from '../util'
+import { mockWarn } from '@vue/shared'
+import { ref, onMounted } from 'vue'
 
-describe("Input", () => {
-  mockWarn();
-  it("create", async () => {
-    let inputFocus = false;
-    const input = ref("input");
+describe('Input', () => {
+  mockWarn()
+  it('create', async () => {
+    let inputFocus = false
+    const input = ref('input')
     const el = createVue({
       template: `
         <el-input
@@ -19,100 +22,100 @@ describe("Input", () => {
       `,
       setup() {
         const handleFocus = () => {
-          inputFocus = true;
-        };
+          inputFocus = true
+        }
 
-        return { input, handleFocus };
+        return { input, handleFocus }
       },
-    });
-    let inputElm = el.querySelector("input");
-    inputElm.focus();
-    expect(inputFocus).toEqual(true);
-    expect(inputElm.getAttribute("placeholder")).toEqual("请输入内容");
-    expect(inputElm.value).toEqual("input");
-    expect(inputElm.getAttribute("minlength")).toEqual("3");
-    expect(inputElm.getAttribute("maxlength")).toEqual("5");
+    })
+    let inputElm = el.querySelector('input')
+    inputElm.focus()
+    expect(inputFocus).toEqual(true)
+    expect(inputElm.getAttribute('placeholder')).toEqual('请输入内容')
+    expect(inputElm.value).toEqual('input')
+    expect(inputElm.getAttribute('minlength')).toEqual('3')
+    expect(inputElm.getAttribute('maxlength')).toEqual('5')
 
-    input.value = "text";
-    await waitImmediate();
-    expect(inputElm.value).toEqual("text");
-  });
+    input.value = 'text'
+    await waitImmediate()
+    expect(inputElm.value).toEqual('text')
+  })
 
-  it("default to empty", () => {
+  it('default to empty', () => {
     const el = createVue({
-      template: "<el-input/>",
-    });
-    let inputElm = el.querySelector("input");
-    expect(inputElm.value).toEqual("");
-  });
+      template: '<el-input/>',
+    })
+    let inputElm = el.querySelector('input')
+    expect(inputElm.value).toEqual('')
+  })
 
-  it("disabled", () => {
+  it('disabled', () => {
     const el = createVue({
       template: `
           <el-input disabled>
           </el-input>
         `,
-    });
-    expect(el.querySelector("input").getAttribute("disabled")).toBeDefined();
-  });
+    })
+    expect(el.querySelector('input').getAttribute('disabled')).toBeDefined()
+  })
 
-  it("suffixIcon", () => {
+  it('suffixIcon', () => {
     const el = createVue({
       template: `
           <el-input suffix-icon="time"></el-input>
         `,
-    });
-    let icon = el.querySelector(".el-input__icon");
-    expect(icon).toBeDefined();
-  });
+    })
+    let icon = el.querySelector('.el-input__icon')
+    expect(icon).toBeDefined()
+  })
 
-  it("prefixIcon", () => {
+  it('prefixIcon', () => {
     const el = createVue({
       template: `
           <el-input prefix-icon="time"></el-input>
         `,
-    });
-    var icon = el.querySelector(".el-input__icon");
-    expect(icon).toBeDefined();
-  });
+    })
+    var icon = el.querySelector('.el-input__icon')
+    expect(icon).toBeDefined()
+  })
 
-  it("size", () => {
+  it('size', () => {
     const el = createVue({
       template: `
           <el-input size="large">
           </el-input>
         `,
-    });
+    })
 
-    expect(el.classList.contains("el-input--large")).toEqual(true);
-  });
+    expect(el.classList.contains('el-input--large')).toEqual(true)
+  })
 
-  it("type", () => {
+  it('type', () => {
     const el = createVue({
       template: `
           <el-input type="textarea">
           </el-input>
         `,
-    });
+    })
 
-    expect(el.classList.contains("el-textarea")).toEqual(true);
-  });
+    expect(el.classList.contains('el-textarea')).toEqual(true)
+  })
 
-  it("rows", () => {
+  it('rows', () => {
     const el = createVue({
       template: `
           <el-input type="textarea" :rows="3">
           </el-input>
         `,
-    });
+    })
     expect(
-      el.querySelector(".el-textarea__inner").getAttribute("rows")
-    ).toEqual("3");
-  });
+      el.querySelector('.el-textarea__inner').getAttribute('rows')
+    ).toEqual('3')
+  })
 
   // Github issue #2836
-  it("resize", async () => {
-    const resize = ref("none");
+  it('resize', async () => {
+    const resize = ref('none')
     const el = createVue({
       template: `
           <div>
@@ -120,51 +123,51 @@ describe("Input", () => {
           </div>
         `,
       setup() {
-        return { resize };
+        return { resize }
       },
-    });
-    await waitImmediate();
-    const elInner = el.querySelector(".el-textarea__inner") as HTMLElement;
-    expect(elInner.style.resize).toEqual(resize.value);
-    resize.value = "horizontal";
-    await waitImmediate();
-    expect(elInner.style.resize).toEqual(resize.value);
-  });
+    })
+    await waitImmediate()
+    const elInner = el.querySelector('.el-textarea__inner') as HTMLElement
+    expect(elInner.style.resize).toEqual(resize.value)
+    resize.value = 'horizontal'
+    await waitImmediate()
+    expect(elInner.style.resize).toEqual(resize.value)
+  })
 
-  it("autosize", async () => {
-    let limitSizeInput;
-    let limitlessSizeInput;
+  it('autosize', async () => {
+    let limitSizeInput
+    let limitlessSizeInput
     let longText =
-      "sda\ndasd\nddasdsda\ndasd\nddasdsda\ndasd\nddasdsda\ndasd\nddasd";
+      'sda\ndasd\nddasdsda\ndasd\nddasdsda\ndasd\nddasdsda\ndasd\nddasd'
 
-    const textareaValue = ref(longText);
+    const textareaValue = ref(longText)
 
     // jsdom doesn't do any actual rendering
     // maybe karma should be used
     // see: https://stackoverflow.com/questions/47823616/mocking-clientheight-and-scrollheight-in-react-enzyme-for-test?r=SearchResults
     jest
-      .spyOn(Element.prototype, "scrollHeight", "get")
+      .spyOn(Element.prototype, 'scrollHeight', 'get')
       .mockImplementation(function (this) {
-        if (this.value === "") {
-          return 31;
+        if (this.value === '') {
+          return 31
         } else if (this.value === longText) {
-          return 196;
+          return 196
         } else {
-          return 0;
+          return 0
         }
-      });
+      })
 
-    const getComputedStyle = window.getComputedStyle;
+    const getComputedStyle = window.getComputedStyle
     jest
-      .spyOn(window as any, "getComputedStyle")
+      .spyOn(window as any, 'getComputedStyle')
       .mockImplementation((ele: HTMLTextAreaElement) => {
         if (ele) {
-          ele.style.paddingBottom = "5px";
-          ele.style.paddingTop = "5px";
-          ele.style.boxSizing = "border-box";
-          return getComputedStyle(ele);
+          ele.style.paddingBottom = '5px'
+          ele.style.paddingTop = '5px'
+          ele.style.boxSizing = 'border-box'
+          return getComputedStyle(ele)
         }
-      });
+      })
 
     createVue({
       template: `
@@ -189,29 +192,29 @@ describe("Input", () => {
           </div>
         `,
       setup() {
-        const limitSize = ref(null);
-        const limitlessSize = ref(null);
+        const limitSize = ref(null)
+        const limitlessSize = ref(null)
         onMounted(() => {
-          limitSizeInput = limitSize.value;
-          limitlessSizeInput = limitlessSize.value;
-        });
-        return { textareaValue, limitSize, limitlessSize };
+          limitSizeInput = limitSize.value
+          limitlessSizeInput = limitlessSize.value
+        })
+        return { textareaValue, limitSize, limitlessSize }
       },
-    });
+    })
 
-    await waitImmediate();
-    expect(limitSizeInput.textareaStyle.height).toEqual("117px");
-    expect(limitlessSizeInput.textareaStyle.height).toEqual("198px");
+    await waitImmediate()
+    expect(limitSizeInput.textareaStyle.height).toEqual('117px')
+    expect(limitlessSizeInput.textareaStyle.height).toEqual('198px')
 
-    textareaValue.value = "";
-    await waitImmediate();
-    expect(limitSizeInput.textareaStyle.height).toEqual("75px");
-    expect(limitlessSizeInput.textareaStyle.height).toEqual("33px");
-  });
+    textareaValue.value = ''
+    await waitImmediate()
+    expect(limitSizeInput.textareaStyle.height).toEqual('75px')
+    expect(limitlessSizeInput.textareaStyle.height).toEqual('33px')
+  })
 
-  it("focus", async () => {
-    const mockFn = jest.fn();
-    const input = ref(null);
+  it('focus', async () => {
+    const mockFn = jest.fn()
+    const input = ref(null)
 
     createVue({
       template: `
@@ -222,15 +225,15 @@ describe("Input", () => {
         return {
           input,
           mockFn,
-        };
+        }
       },
-    });
+    })
 
-    await waitImmediate();
-    input.value.focus();
-    await waitImmediate();
-    expect(mockFn).toBeCalledTimes(1);
-  });
+    await waitImmediate()
+    input.value.focus()
+    await waitImmediate()
+    expect(mockFn).toBeCalledTimes(1)
+  })
 
   // TODO: need other component
   // it("Input contains Select and append slot", async () => {
@@ -300,10 +303,10 @@ describe("Input", () => {
   //     expect(spy.called).to.be.false;
   //   });
 
-  describe("Input Events", () => {
-    it("event:focus & blur", async () => {
-      const mockFocus = jest.fn();
-      const mockBlur = jest.fn();
+  describe('Input Events', () => {
+    it('event:focus & blur', async () => {
+      const mockFocus = jest.fn()
+      const mockBlur = jest.fn()
 
       const el = createVue({
         template: `
@@ -318,23 +321,23 @@ describe("Input", () => {
           return {
             mockFocus,
             mockBlur,
-          };
+          }
         },
-      });
+      })
 
       // vm.$refs.input.$on("focus", spyFocus);
       // vm.$refs.input.$on("blur", spyBlur);
-      el.querySelector("input").focus();
-      el.querySelector("input").blur();
+      el.querySelector('input').focus()
+      el.querySelector('input').blur()
 
-      await waitImmediate();
-      expect(mockFocus).toBeCalledTimes(1);
-      expect(mockBlur).toBeCalledTimes(1);
-    });
+      await waitImmediate()
+      expect(mockFocus).toBeCalledTimes(1)
+      expect(mockBlur).toBeCalledTimes(1)
+    })
 
-    it("event:change", async () => {
+    it('event:change', async () => {
       // NOTE: should be same as native's change behavior
-      const mockChange = jest.fn();
+      const mockChange = jest.fn()
       const el = createVue({
         template: `
             <el-input
@@ -344,31 +347,30 @@ describe("Input", () => {
             </el-input>
           `,
         data() {
-          const value = ref("");
+          const value = ref('')
           return {
             value,
             mockChange,
-          };
+          }
         },
-      });
+      })
 
-      const inputElm = el.querySelector("input");
+      const inputElm = el.querySelector('input')
       const simulateEvent = (text, event) => {
-        inputElm.value = text;
-        inputElm.dispatchEvent(new Event(event));
-      };
+        inputElm.value = text
+        inputElm.dispatchEvent(new Event(event))
+      }
 
       // simplified test, component should emit change when native does
-      simulateEvent("1", "input");
-      simulateEvent("2", "change");
-      await waitImmediate();
+      simulateEvent('1', 'input')
+      simulateEvent('2', 'change')
+      await waitImmediate()
 
-      expect(mockChange).toBeCalledTimes(1);
-      // TODO: Stop the event from bubbling
-      // expect(mockChange).toBeCalledWith("2");
-    });
-    it("event:clear", async () => {
-      const mockClear = jest.fn();
+      expect(mockChange).toBeCalledTimes(1)
+      expect(mockChange).toBeCalledWith('2')
+    })
+    it('event:clear', async () => {
+      const mockClear = jest.fn()
       const el = createVue({
         template: `
             <el-input
@@ -379,28 +381,28 @@ describe("Input", () => {
             </el-input>
           `,
         setup() {
-          const value = ref("a");
+          const value = ref('a')
           return {
             value,
             mockClear,
-          };
+          }
         },
-      });
+      })
 
-      const inputElm = el.querySelector("input");
+      const inputElm = el.querySelector('input')
 
       // focus to show clear button
-      inputElm.focus();
+      inputElm.focus()
 
-      await waitImmediate();
-      (el.querySelector(".el-input__clear") as HTMLElement).click();
-      await waitImmediate();
-      expect(mockClear).toBeCalledTimes(1);
-    });
+      await waitImmediate()
+      ;(el.querySelector('.el-input__clear') as HTMLElement).click()
+      await waitImmediate()
+      expect(mockClear).toBeCalledTimes(1)
+    })
 
-    it("event:input", async () => {
-      const mockInput = jest.fn();
-      const value = ref("a");
+    it('event:input', async () => {
+      const mockInput = jest.fn()
+      const value = ref('a')
       const el = createVue({
         template: `
             <el-input
@@ -414,149 +416,157 @@ describe("Input", () => {
           return {
             value,
             mockInput,
-          };
+          }
         },
-      });
+      })
 
-      const nativeInput = el.querySelector("input");
-      nativeInput.value = "1";
-      triggerEvent(nativeInput, "compositionstart");
-      triggerEvent(nativeInput, "input");
-      await waitImmediate();
-      nativeInput.value = "2";
-      triggerEvent(nativeInput, "compositionupdate");
-      triggerEvent(nativeInput, "input");
-      await waitImmediate();
-      triggerEvent(nativeInput, "compositionend");
-      await waitImmediate();
+      const nativeInput = el.querySelector('input')
+      nativeInput.value = '1'
+      triggerEvent(nativeInput, 'compositionstart')
+      triggerEvent(nativeInput, 'input')
+      await waitImmediate()
+      nativeInput.value = '2'
+      triggerEvent(nativeInput, 'compositionupdate')
+      triggerEvent(nativeInput, 'input')
+      await waitImmediate()
+      triggerEvent(nativeInput, 'compositionend')
+      await waitImmediate()
       // input event does not fire during composition
-      // TODO: Stop the event from bubbling
-      // expect(mockInput).toBeCalledTimes(1);
+      expect(mockInput).toBeCalledTimes(1)
+      // TODO: to know for what
       // native input value is controlled
-      // expect(value.value).toEqual("a");
-      // expect(nativeInput.value).toEqual("a");
-    });
-  });
+      // expect(value.value).toEqual('a')
+      // expect(nativeInput.value).toEqual('a')
+    })
+  })
 
-  // describe("Input Methods", () => {
-  //   it("method:select", async () => {
-  //     const testContent = "test";
-  //     const inputComp = ref(null);
+  describe('Input Methods', () => {
+    it('method:select', async () => {
+      const testContent = 'test'
+      const inputComp = ref(null)
+      const el = createVue({
+        template: `
+          <el-input
+            ref="inputComp"
+            v-model="value"
+          />
+        `,
+        setup() {
+          const value = ref(testContent)
+          return {
+            value,
+            inputComp,
+          }
+        },
+      })
+      await waitImmediate()
+      let input = el.querySelector('input')
+      expect(input.selectionStart).toEqual(testContent.length)
+      expect(input.selectionEnd).toEqual(testContent.length)
+      inputComp.value.select()
+      await waitImmediate()
+      expect(input.selectionStart).toEqual(0)
+      expect(input.selectionEnd).toEqual(testContent.length)
+    })
+  })
 
-  //     const el = createVue({
-  //       template: `
-  //         <el-input
-  //           ref="inputComp"
-  //           v-model="value"
-  //         />
-  //       `,
-  //       setup() {
-  //         const value = ref(testContent);
-  //         return {
-  //           value,
-  //           inputComp,
-  //         };
-  //       },
-  //     });
+  it('sets value on textarea / input type change', async () => {
+    const type = ref('text')
+    const val = ref('123')
+    const el = createVue({
+      template: `
+        <el-input :type="type" v-model="val" />
+      `,
+      setup() {
+        return {
+          type,
+          val,
+        }
+      },
+    })
 
-  //     // await waitImmediate();
-  //     let input = el.querySelector("input");
-  //     console.log(input.value);
+    expect(el.querySelector('input').value).toEqual('123')
+    type.value = 'textarea'
+    await waitImmediate()
+    expect(el.querySelector('textarea').value).toEqual('123')
+    type.value = 'password'
+    await waitImmediate()
+    expect(el.querySelector('input').value).toEqual('123')
+  })
 
-  //     expect(input.selectionStart).toEqual(testContent.length);
-  //     expect(input.selectionEnd).toEqual(testContent.length);
+  it('limit input and show word count', async () => {
+    const show = ref(false)
+    const value4 = ref('exceed')
+    const inputText = ref(null)
+    const inputTextarea = ref(null)
+    const inputPassword = ref(null)
+    const inputInitialExceed = ref(null)
 
-  //     inputComp.select();
+    createVue({
+      template: `
+        <div>
+          <el-input
+            ref="inputText"
+            type="text"
+            v-model="value1"
+            maxlength="10"
+            :show-word-limit="show">
+          </el-input>
+          <el-input
+            ref="inputTextarea"
+            type="textarea"
+            v-model="value2"
+            maxlength="10"
+            show-word-limit>
+          </el-input>
+          <el-input
+            ref="inputPassword"
+            type="password"
+            v-model="value3"
+            maxlength="10"
+            show-word-limit>
+          </el-input>
+          <el-input
+            ref="inputInitialExceed"
+            type="text"
+            v-model="value4"
+            maxlength="2"
+            show-word-limit>
+          </el-input>
+        </div>
+      `,
+      setup() {
+        return {
+          value1: '',
+          value2: '',
+          value3: '',
+          value4,
+          show,
+          inputText,
+          inputTextarea,
+          inputPassword,
+          inputInitialExceed,
+        }
+      },
+    })
 
-  //     await waitImmediate();
-  //     expect(input.selectionStart).toEqual(0);
-  //     expect(input.selectionEnd).toEqual(testContent.length);
-  //   });
-  // });
+    await waitImmediate()
+    const elText = inputText.value.$el
+    const elTextarea = inputTextarea.value.$el
+    const elPassword = inputPassword.value.$el
+    const InitialExceed = inputInitialExceed.value.$el
 
-  // it('sets value on textarea / input type change', async() => {
-  //   vm = createVue({
-  //     template: `
-  //       <el-input :type="type" v-model="val" />
-  //     `,
-  //     data() {
-  //       return {
-  //         type: 'text',
-  //         val: '123'
-  //       };
-  //     }
-  //   }, true);
+    expect(elText.querySelectorAll('.el-input__count').length).toEqual(0)
+    expect(elTextarea.querySelectorAll('.el-input__count').length).toEqual(1)
+    expect(elPassword.querySelectorAll('.el-input__count').length).toEqual(0)
+    expect(InitialExceed.classList.contains('is-exceed')).toEqual(true)
 
-  //   expect(vm.$el.querySelector('input').value).to.equal('123');
-  //   vm.type = 'textarea';
-  //   await waitImmediate();
-  //   expect(vm.$el.querySelector('textarea').value).to.equal('123');
-  //   vm.type = 'password';
-  //   await waitImmediate();
-  //   expect(vm.$el.querySelector('input').value).to.equal('123');
-  // });
+    show.value = true
+    await waitImmediate()
+    expect(elText.querySelectorAll('.el-input__count').length).toEqual(1)
 
-  // it('limit input and show word count', async() => {
-  //   vm = createVue({
-  //     template: `
-  //       <div>
-  //         <el-input
-  //           class="test-text"
-  //           type="text"
-  //           v-model="input1"
-  //           maxlength="10"
-  //           :show-word-limit="show">
-  //         </el-input>
-  //         <el-input
-  //           class="test-textarea"
-  //           type="textarea"
-  //           v-model="input2"
-  //           maxlength="10"
-  //           show-word-limit>
-  //         </el-input>
-  //         <el-input
-  //           class="test-password"
-  //           type="password"
-  //           v-model="input3"
-  //           maxlength="10"
-  //           show-word-limit>
-  //         </el-input>
-  //         <el-input
-  //           class="test-initial-exceed"
-  //           type="text"
-  //           v-model="input4"
-  //           maxlength="2"
-  //           show-word-limit>
-  //         </el-input>
-  //       </div>
-  //     `,
-  //     data() {
-  //       return {
-  //         input1: '',
-  //         input2: '',
-  //         input3: '',
-  //         input4: 'exceed',
-  //         show: false
-  //       };
-  //     }
-  //   }, true);
-
-  //   const inputElm1 = vm.$el.querySelector('.test-text');
-  //   const inputElm2 = vm.$el.querySelector('.test-textarea');
-  //   const inputElm3 = vm.$el.querySelector('.test-password');
-  //   const inputElm4 = vm.$el.querySelector('.test-initial-exceed');
-
-  //   expect(inputElm1.querySelectorAll('.el-input__count').length).to.equal(0);
-  //   expect(inputElm2.querySelectorAll('.el-input__count').length).to.equal(1);
-  //   expect(inputElm3.querySelectorAll('.el-input__count').length).to.equal(0);
-  //   expect(inputElm4.classList.contains('is-exceed')).to.true;
-
-  //   vm.show = true;
-  //   await waitImmediate();
-  //   expect(inputElm1.querySelectorAll('.el-input__count').length).to.equal(1);
-
-  //   vm.input4 = '1';
-  //   await waitImmediate();
-  //   expect(inputElm4.classList.contains('is-exceed')).to.false;
-  // });
-});
+    value4.value = '1'
+    await waitImmediate()
+    expect(elText.classList.contains('is-exceed')).toEqual(false)
+  })
+})

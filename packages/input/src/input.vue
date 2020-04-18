@@ -11,8 +11,8 @@
         'el-input-group--prepend': $slots.prepend,
         'el-input--prefix': $slots.prefix || prefixIcon,
         'el-input--suffix':
-          $slots.suffix || suffixIcon || clearable || showPassword
-      }
+          $slots.suffix || suffixIcon || clearable || showPassword,
+      },
     ]"
     @mouseenter="hovering = true"
     @mouseleave="hovering = false"
@@ -67,8 +67,8 @@
           ></i>
           <span v-if="isWordLimitVisible" class="el-input__count">
             <span class="el-input__count-inner"
-              >{{ textLength }}/{{ upperLimit }}
-            </span>
+              >{{ textLength }}/{{ upperLimit }}</span
+            >
           </span>
         </span>
         <i
@@ -104,8 +104,8 @@
     <span
       v-if="isWordLimitVisible && type === 'textarea'"
       class="el-input__count"
-      >{{ textLength }}/{{ upperLimit }}
-    </span>
+      >{{ textLength }}/{{ upperLimit }}</span
+    >
   </div>
 </template>
 <script lang="ts">
@@ -120,7 +120,7 @@ import {
   PropType,
   Ref,
   watch,
-  onMounted
+  onMounted,
 } from 'vue'
 import { useForm } from 'src/utils/injection/form'
 import { isNumber, isKorean } from 'src/utils/share'
@@ -136,9 +136,12 @@ export default defineComponent({
 
   inheritAttrs: false,
 
+  //See: https://github.com/vuejs/rfcs/pull/154#discussion_r403063875
+  emits: ['update:modelValue', 'change', 'clear', 'input'],
+
   props: {
     modelValue: {
-      type: [String, Number]
+      type: [String, Number],
     },
     size: String as PropType<ElementUIComponentSize>,
     resize: String as PropType<Resizability>,
@@ -147,36 +150,36 @@ export default defineComponent({
     readonly: Boolean,
     type: {
       type: String as PropType<InputType>,
-      default: 'text'
+      default: 'text',
     },
     autosize: {
       type: [Boolean, Object] as PropType<boolean | AutoSize>,
-      default: false
+      default: false,
     },
     autocomplete: {
       type: String,
-      default: 'off'
+      default: 'off',
     },
     validateEvent: {
       type: Boolean,
-      default: true
+      default: true,
     },
     suffixIcon: String,
     prefixIcon: String,
     label: String,
     clearable: {
       type: Boolean,
-      default: false
+      default: false,
     },
     showPassword: {
       type: Boolean,
-      default: false
+      default: false,
     },
     showWordLimit: {
       type: Boolean,
-      default: false
+      default: false,
     },
-    tabindex: String
+    tabindex: String,
   },
 
   setup(props, ctx) {
@@ -224,7 +227,7 @@ export default defineComponent({
         return {
           validating: 'el-icon-loading',
           success: 'el-icon-circle-check',
-          error: 'el-icon-circle-close'
+          error: 'el-icon-circle-close',
         }[state.validateState]
       }),
       textareaStyle: computed(() => {
@@ -251,7 +254,7 @@ export default defineComponent({
         return (
           props.showWordLimit &&
           ctx.attrs.maxlength &&
-          (props.type === 'text' || props.type === 'textare') &&
+          (props.type === 'text' || props.type === 'textarea') &&
           !state.inputDisabled &&
           !props.readonly &&
           !props.showPassword
@@ -266,7 +269,7 @@ export default defineComponent({
       }),
       inputExceed: computed(() => {
         return state.isWordLimitVisible && state.textLength > state.upperLimit
-      })
+      }),
     })
 
     // methods
@@ -305,7 +308,7 @@ export default defineComponent({
       if (nativeInputType.value !== 'textarea') return
       if (!state.autosize) {
         textareaCalcStyle.value = {
-          minHeight: calcTextareaHeight(refTextarea.value).minHeight
+          minHeight: calcTextareaHeight(refTextarea.value).minHeight,
         }
         return
       }
@@ -324,16 +327,16 @@ export default defineComponent({
       input.value = nativeInputValue.value
     }
 
-    const handleFocus = event => {
+    const handleFocus = (event) => {
       focused.value = true
     }
 
-    const handleCompositionUpdate = event => {
+    const handleCompositionUpdate = (event) => {
       const text = event.target.value
       const lastCharacter = text[text.length - 1] || ''
       isComposing.value = !isKorean(lastCharacter)
     }
-    const handleCompositionEnd = event => {
+    const handleCompositionEnd = (event) => {
       if (isComposing.value) {
         isComposing.value = false
         handleInput(event)
@@ -341,7 +344,7 @@ export default defineComponent({
     }
 
     // TODO: Stop the event from bubbling similar to handleChange
-    const handleInput = event => {
+    const handleInput = (event) => {
       // should not emit input during composition
       // see: https://github.com/ElemeFE/element/issues/10516
       if (isComposing.value) return
@@ -351,19 +354,17 @@ export default defineComponent({
       if (event.target.value === nativeInputValue.value) return
 
       ctx.emit('update:modelValue', event.target.value)
-
+      ctx.emit('input', event.target.value)
       // ensure native input value is controlled
       // see: https://github.com/ElemeFE/element/issues/12850
       nextTick(setNativeInputValue)
     }
 
-    // TODO: Stop the event from bubbling
-    // https://github.com/vuejs/vue-next/issues/916
-    const handleChange = event => {
-      // ctx.emit("change", event.target.value);
+    const handleChange = (event: Event) => {
+      ctx.emit('change', (event.target as HTMLInputElement).value)
     }
 
-    const calcIconOffset = place => {
+    const calcIconOffset = (place) => {
       // let elList = [].slice.call(
       //   this.$el.querySelectorAll(`.el-input__${place}`) || []
       // );
@@ -470,8 +471,8 @@ export default defineComponent({
       focus,
       blur,
       select,
-      clear
+      clear,
     }
-  }
+  },
 })
 </script>
