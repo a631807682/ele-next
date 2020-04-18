@@ -343,7 +343,6 @@ export default defineComponent({
       }
     }
 
-    // TODO: Stop the event from bubbling similar to handleChange
     const handleInput = (event) => {
       // should not emit input during composition
       // see: https://github.com/ElemeFE/element/issues/10516
