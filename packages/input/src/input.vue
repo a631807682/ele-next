@@ -121,11 +121,12 @@ import {
   Ref,
   watch,
   onMounted,
+  getCurrentInstance,
 } from 'vue'
 import { useForm } from 'src/utils/injection/form'
 import { isNumber, isKorean } from 'src/utils/share'
 import calcTextareaHeight from './calcTextareaHeight'
-import { ElementUIOptions, ElementUIComponentSize } from 'src/component'
+import { ElementUIComponentSize } from 'src/component'
 import { Resizability, InputType, AutoSize } from './type'
 
 export default defineComponent({
@@ -150,7 +151,7 @@ export default defineComponent({
     readonly: Boolean,
     type: {
       type: String as PropType<InputType>,
-      default: 'text',
+      default: 'text' as InputType,
     },
     autosize: {
       type: [Boolean, Object] as PropType<boolean | AutoSize>,
@@ -183,7 +184,7 @@ export default defineComponent({
   },
 
   setup(props, ctx) {
-    const { elForm, elFormItem } = useForm()
+    const { validateState, size, needStatusIcon, disabled } = useForm(props)
     const textareaCalcStyle = ref({})
     const focused: Ref<boolean> = ref(false)
     const isComposing: Ref<boolean> = ref(false)
@@ -200,6 +201,10 @@ export default defineComponent({
     const nativeInputType = computed(() => props.type)
 
     const state = reactive({
+      validateState,
+      inputSize: size,
+      inputDisabled: disabled,
+      needStatusIcon,
       hovering: false,
       passwordVisible: false,
       autocomplete: props.autocomplete,
@@ -209,20 +214,7 @@ export default defineComponent({
       validateEvent: props.validateEvent,
       autosize: props.autosize,
       type: nativeInputType,
-      needStatusIcon: computed(() => {
-        return elForm.statusIcon || false
-      }),
-      validateState: computed(() => {
-        return elFormItem ? elFormItem.validateState : ''
-      }),
-      inputSize: computed(() => {
-        return (
-          props.size || elFormItem.elFormItemSize || ElementUIOptions.value.size
-        )
-      }),
-      inputDisabled: computed(() => {
-        return props.disabled || elForm.disabled
-      }),
+
       validateIcon: computed(() => {
         return {
           validating: 'el-icon-loading',
@@ -363,33 +355,6 @@ export default defineComponent({
       ctx.emit('change', (event.target as HTMLInputElement).value)
     }
 
-    const calcIconOffset = (place) => {
-      // let elList = [].slice.call(
-      //   this.$el.querySelectorAll(`.el-input__${place}`) || []
-      // );
-      // if (!elList.length) return;
-      // let el = null;
-      // for (let i = 0; i < elList.length; i++) {
-      //   if (elList[i].parentNode === this.$el) {
-      //     el = elList[i];
-      //     break;
-      //   }
-      // }
-      // if (!el) return;
-      // const pendantMap = {
-      //   suffix: "append",
-      //   prefix: "prepend"
-      // };
-      // const pendant = pendantMap[place];
-      // if (this.$slots[pendant]) {
-      //   el.style.transform = `translateX(${place === "suffix" ? "-" : ""}${
-      //     this.$el.querySelector(`.el-input-group__${pendant}`).offsetWidth
-      //   }px)`;
-      // } else {
-      //   el.removeAttribute("style");
-      // }
-    }
-
     const updateIconOffset = () => {
       calcIconOffset('prefix')
       calcIconOffset('suffix')
@@ -474,4 +439,37 @@ export default defineComponent({
     }
   },
 })
+
+function calcIconOffset(place) {
+  const instance = getCurrentInstance()
+  if (!instance) return
+  let instanceEl = instance!.vnode.el
+
+  let elList = [].slice.call(
+    instanceEl.querySelectorAll(`.el-input__${place}`) || []
+  )
+  if (!elList.length) return
+
+  let el = null
+  for (let i = 0; i < elList.length; i++) {
+    if (elList[i].parentNode === instanceEl) {
+      el = elList[i]
+      break
+    }
+  }
+  if (!el) return
+  const pendantMap = {
+    suffix: 'append',
+    prefix: 'prepend',
+  }
+
+  const pendant = pendantMap[place]
+  if (instance.slots[pendant]) {
+    el.style.transform = `translateX(${place === 'suffix' ? '-' : ''}${
+      instanceEl.querySelector(`.el-input-group__${pendant}`).offsetWidth
+    }px)`
+  } else {
+    el.removeAttribute('style')
+  }
+}
 </script>

@@ -6,8 +6,10 @@
     clearable
     @change="handleChange"
     @input="handleInput"
-    maxlength="10"
+    maxlength="200"
     show-word-limit
+    prefix-icon="el-icon-search"
+    suffix-icon="el-icon-date"
   ></el-input>
   <el-button type="primary" @click="handleClick">change input type</el-button>
 </template>
@@ -23,7 +25,7 @@ export default defineComponent({
       textareaValue: string
       autosize: boolean | AutoSize
     } = reactive({
-      type: 'textarea',
+      type: 'text',
       textareaValue: 'aa\nbb\ncc',
       autosize: true,
     })

@@ -24,8 +24,8 @@
   </button>
 </template>
 <script lang="ts">
-import { computed, reactive, toRefs, defineComponent, PropType } from 'vue'
-import { ElementUIOptions, ElementUIComponentSize } from 'src/component'
+import { reactive, toRefs, defineComponent, PropType } from 'vue'
+import { ElementUIComponentSize } from 'src/component'
 import { ButtonType, ButtonNativeType } from './type'
 import { useForm } from 'src/utils/injection/form'
 
@@ -34,7 +34,7 @@ export default defineComponent({
   props: {
     type: {
       type: String as PropType<ButtonType>,
-      default: 'default',
+      default: 'default' as ButtonType,
     },
     size: String as PropType<ElementUIComponentSize>,
     icon: {
@@ -43,7 +43,7 @@ export default defineComponent({
     },
     nativeType: {
       type: String as PropType<ButtonNativeType>,
-      default: 'button',
+      default: 'button' as ButtonNativeType,
     },
     loading: Boolean,
     disabled: Boolean,
@@ -53,17 +53,11 @@ export default defineComponent({
     circle: Boolean,
   },
   setup(props) {
-    const { elForm, elFormItem } = useForm()
+    const { disabled: buttonDisabled, size: buttonSize } = useForm(props)
 
     const state = reactive({
-      buttonSize: computed(() => {
-        return (
-          props.size || elFormItem.elFormItemSize || ElementUIOptions.value.size
-        )
-      }),
-      buttonDisabled: computed(() => {
-        return props.disabled || elForm.disabled
-      }),
+      buttonSize,
+      buttonDisabled,
     })
 
     return {
