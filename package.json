@@ -1,7 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --config build/webpack.demo.js",
+    "build:file": "node build/bin/build-entry.js",
+    "dev": " npm run build:file & webpack-dev-server --config build/webpack.demo.js",
     "build": "webpack --env.prod",
     "test": "jest",
     "lint": "prettier --write  \"packages/**/*.?(ts|vue)\"",
