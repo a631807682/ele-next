@@ -124,6 +124,7 @@ import {
   getCurrentInstance,
 } from 'vue'
 import { useForm } from 'src/utils/injection/form'
+import { dispatch } from 'src/utils/emitter'
 import { isNumber, isKorean } from 'src/utils/share'
 import calcTextareaHeight from './calcTextareaHeight'
 import { ElementUIComponentSize } from 'src/component'
@@ -131,9 +132,6 @@ import { Resizability, InputType, AutoSize } from './type'
 
 export default defineComponent({
   name: 'ElInput',
-
-  // TODO: dispatch to form
-  // mixins: [emitter, Migrating],
 
   inheritAttrs: false,
 
@@ -287,10 +285,9 @@ export default defineComponent({
     function handleBlur(event) {
       focused.value = false
 
-      // TODO: dispatch to form
-      // if (this.validateEvent) {
-      //   this.dispatch("ElFormItem", "el.form.blur", [this.value]);
-      // }
+      if (state.validateEvent) {
+        dispatch('ElFormItem', 'el.form.blur', [state.modelValue])
+      }
     }
 
     function resizeTextarea() {
@@ -385,16 +382,16 @@ export default defineComponent({
     // native input value is set explicitly
     // do not use v-model / :value in template
     // see: https://github.com/ElemeFE/element/issues/14521
-    watch(nativeInputValue, () => {
+    watch(nativeInputValue, (val) => {
       setNativeInputValue()
 
       // when change between <input> and <textarea>,
       // update DOM dependent value and styles
       // https://github.com/ElemeFE/element/issues/14857
       nextTick(resizeTextarea)
-      // // TODO: dispatch to form
+
       if (state.validateEvent) {
-        //  this.dispatch("ElFormItem", "el.form.change", [val]);
+        dispatch('ElFormItem', 'el.form.change', [val])
       }
     })
 
