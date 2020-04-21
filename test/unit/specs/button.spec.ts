@@ -1,134 +1,132 @@
-import { createTest, createVue, waitImmediate } from "../util";
-import { mockWarn } from "@vue/shared";
-import { Button } from "packages/button";
+import { mountWithProps, mountWithElement } from '../util'
+import { Button } from 'packages/button'
 
-describe("Button", () => {
-  mockWarn();
+describe('Button', () => {
+  it('create', () => {
+    const wrapper = mountWithProps(Button, {
+      type: 'primary',
+    })
+    expect(wrapper.classes('el-button--primary')).toBe(true)
+  })
 
-  it("create", () => {
-    const el = createTest(Button, {
-      type: "primary",
-    });
-    expect(el.classList.contains("el-button--primary")).toBe(true);
-  });
+  it('icon', () => {
+    const wrapper = mountWithProps(Button, {
+      icon: 'el-icon-search',
+    })
+    expect(wrapper.find('.el-icon-search').exists()).toBe(true)
+  })
 
-  it("icon", () => {
-    const el = createTest(Button, {
-      icon: "el-icon-search",
-    });
-    expect(el.querySelector(".el-icon-search")).toBeDefined();
-  });
+  it('nativeType', () => {
+    const wrapper = mountWithProps(Button, {
+      nativeType: 'submit',
+    })
+    expect(wrapper.attributes('type')).toBe('submit')
+  })
 
-  it("nativeType", () => {
-    const el = createTest(Button, {
-      nativeType: "submit",
-    });
-
-    expect(el.getAttribute("type")).toEqual("submit");
-  });
-
-  it("loading", () => {
-    const el = createTest(Button, {
+  it('loading', () => {
+    const wrapper = mountWithProps(Button, {
       loading: true,
-    });
-    expect(el.classList.contains("is-loading")).toBe(true);
-    expect(el.querySelector(".el-icon-loading")).toBeDefined();
-  });
+    })
+    expect(wrapper.classes('is-loading')).toBe(true)
+    expect(wrapper.find('.el-icon-loading').exists()).toBe(true)
+  })
 
-  it("disabled", () => {
-    const el = createTest(Button, {
+  it('disabled', () => {
+    const wrapper = mountWithProps(Button, {
       disabled: true,
-    });
-    expect(el.classList.contains("is-disabled")).toBe(true);
-  });
+    })
+    expect(wrapper.classes('is-disabled')).toBe(true)
+  })
 
-  it("size", () => {
-    const el = createTest(Button, {
-      size: "medium",
-    });
-    expect(el.classList.contains("el-button--medium")).toBe(true);
-  });
+  it('size', () => {
+    const wrapper = mountWithProps(Button, {
+      size: 'medium',
+    })
 
-  it("plain", () => {
-    const el = createTest(Button, {
+    expect(wrapper.classes('el-button--medium')).toBe(true)
+  })
+
+  it('plain', () => {
+    const wrapper = mountWithProps(Button, {
       plain: true,
-    });
-    expect(el.classList.contains("is-plain")).toBe(true);
-  });
+    })
 
-  it("round", () => {
-    const el = createTest(Button, {
+    expect(wrapper.classes('is-plain')).toBe(true)
+  })
+
+  it('round', () => {
+    const wrapper = mountWithProps(Button, {
       round: true,
-    });
-    expect(el.classList.contains("is-round")).toBe(true);
-  });
+    })
 
-  it("circle", () => {
-    const el = createTest(Button, {
+    expect(wrapper.classes('is-round')).toBe(true)
+  })
+
+  it('circle', () => {
+    const wrapper = mountWithProps(Button, {
       circle: true,
-    });
-    expect(el.classList.contains("is-circle")).toBe(true);
-  });
+    })
 
-  it("click", async () => {
-    let result;
-    const el = createVue({
+    expect(wrapper.classes('is-circle')).toBe(true)
+  })
+
+  it('click', async () => {
+    let result
+    const Component = {
       template: `
-          <el-button @click="handleClick"></el-button>
-        `,
+        <el-button @click="handleClick"></el-button>
+      `,
       setup() {
-        function handleClick(evt) {
-          result = evt;
-        }
         return {
-          handleClick,
-        };
+          handleClick(evt) {
+            result = evt
+          },
+        }
       },
-    });
-    (el as HTMLElement).click();
+    }
+    const wrapper = mountWithElement(Component)
 
-    await waitImmediate();
-    expect(result).toBeDefined();
-  });
+    // TODO: wait for vtu findComponent to simplfy test
+    await wrapper.trigger('click')
+    expect(result).toBeDefined()
+  })
 
-  it("click inside", async () => {
-    let result;
-    const el = createVue({
+  it('click inside', async () => {
+    let result
+    const wrapper = mountWithElement({
       template: `
           <el-button @click="handleClick"><span class="inner-slot"></span></el-button>
         `,
       setup() {
         function handleClick(evt) {
-          result = evt;
+          result = evt
         }
         return {
           handleClick,
-        };
+        }
       },
-    });
-    (el.querySelector(".inner-slot") as HTMLElement).click();
+    })
+    const insideElement = wrapper.find<HTMLElement>('.inner-slot').element
+    await insideElement.click()
+    expect(result).toBeDefined()
+  })
 
-    await waitImmediate();
-    expect(result).toBeDefined();
-  });
-
-  it("loading implies disabled", async () => {
-    let result;
-    const el = createVue({
+  it('loading implies disabled', async () => {
+    let result
+    const wrapper = mountWithElement({
       template: `
         <el-button loading @click="handleClick"></el-button>
         `,
       setup() {
         function handleClick(evt) {
-          result = evt;
+          result = evt
         }
         return {
           handleClick,
-        };
+        }
       },
-    });
-    (el as HTMLElement).click();
-    await waitImmediate();
-    expect(result).toBeUndefined();
-  });
-});
+    })
+    await (wrapper.element as HTMLElement).click()
+    expect(result).toBeUndefined()
+  })
+})
