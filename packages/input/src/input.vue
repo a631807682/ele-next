@@ -359,6 +359,7 @@ export default defineComponent({
 
     const clear = () => {
       ctx.emit('update:modelValue', '')
+      ctx.emit('input', '')
       ctx.emit('change', '')
       ctx.emit('clear')
     }

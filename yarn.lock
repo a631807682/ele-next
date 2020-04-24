@@ -1267,10 +1267,13 @@
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.0.0-beta.3.tgz#783e98475757c9e2c58cb804cce2cd9dd328f4b8"
   integrity sha512-NSiCty9fUjn+JuGtBCnlxqB+9jq4S/W6lGREMz/2cQZchIETu16fBxvQukljVmtbChAjrw/JTOb8HzTrDAhLlQ==
 
-"@vue/test-utils@^2.0.0-alpha.1":
-  version "2.0.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-2.0.0-alpha.1.tgz#4bea0b25bcf91a7c43d88bc2b1b8b90b06a40c1a"
-  integrity sha512-qureK5X+67Fp3z2YnIreqBlE/bkwof+sjJu8STRkM4Oy9FqcHqbAlkakwFvQOQhOioWCPS+QKjzWBNjBmzNdOQ==
+"@vue/test-utils@^2.0.0-alpha.2":
+  version "2.0.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-2.0.0-alpha.2.tgz#0c36feb09b7b0b747799094fde2e677f8954e588"
+  integrity sha512-b3u4ZEGC/6MrrnqHK7ey0w04KPL060KqF56OozLVgNk4Sxrn9aUQER1MZKD2kuEdeyArqV3hT0m5BBGdTSvztQ==
+  dependencies:
+    dom-event-types "^1.0.0"
+    lodash "^4.17.15"
 
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
@@ -2953,6 +2956,11 @@ dom-converter@^0.2:
   integrity sha512-gd3ypIPfOMr9h5jIKq8E3sHOTCjeirnl0WK5ZdS1AW0Odt0b1PaWaHdJ4Qk4klv+YB9aJBS7mESXjFoDQPu6DA==
   dependencies:
     utila "~0.4"
+
+dom-event-types@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/dom-event-types/-/dom-event-types-1.0.0.tgz#5830a0a29e1bf837fe50a70cd80a597232813cae"
+  integrity sha512-2G2Vwi2zXTHBGqXHsJ4+ak/iP0N8Ar+G8a7LiD2oup5o4sQWytwqqrZu/O6hIMV0KMID2PL69OhpshLO0n7UJQ==
 
 dom-serializer@0:
   version "0.2.2"

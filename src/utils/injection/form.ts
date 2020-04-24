@@ -19,19 +19,19 @@ export const useForm = ({
   const elForm = inject(formSymbol, {} as any)
   const elFormItem = inject(formItemSymbol, {} as any)
 
-  const validateState = computed(() => {
+  const validateState = computed<string>(() => {
     return elFormItem ? elFormItem.validateState : ''
   })
 
-  const _size = computed(() => {
+  const _size = computed<string>(() => {
     return size || elFormItem.elFormItemSize || ElementUIOptions.value.size
   })
 
-  const needStatusIcon = computed(() => {
+  const needStatusIcon = computed<boolean>(() => {
     return elForm.statusIcon || false
   })
 
-  const _disabled = computed(() => {
+  const _disabled = computed<boolean>(() => {
     return disabled || elForm.disabled
   })
 

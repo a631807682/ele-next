@@ -85,8 +85,6 @@ describe('Button', () => {
       },
     }
     const wrapper = mountWithElement(Component)
-
-    // TODO: wait for vtu findComponent to simplfy test
     await wrapper.trigger('click')
     expect(result).toBeDefined()
   })

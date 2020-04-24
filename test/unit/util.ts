@@ -86,3 +86,5 @@ export function mountWithElement(originalComponent: any, options?: object) {
     ...ElementPluginOption,
   })
 }
+
+export function warn(...args) {}
