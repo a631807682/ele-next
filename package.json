@@ -53,7 +53,7 @@
     "sass-loader": "^8.0.2",
     "style-loader": "^1.1.4",
     "ts-jest": "^25.3.0",
-    "ts-loader": "^7.0.0",
+    "ts-loader": "^7.0.4",
     "typescript": "^3.8.3",
     "uppercamelcase": "^3.0.0",
     "url-loader": "^4.1.0",
