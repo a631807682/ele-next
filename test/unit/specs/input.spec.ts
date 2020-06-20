@@ -380,8 +380,10 @@ describe('Input', () => {
 
       await waitImmediate()
       await wrapper.find('.el-input__clear').trigger('click')
-      await waitImmediate()
-      expect(wrapper.emitted()).toHaveProperty('clear')
+
+      expect(
+        wrapper.findComponent({ name: 'ElInput' }).emitted()
+      ).toHaveProperty('clear')
     })
 
     //   it('event:input', async () => {
