@@ -6,7 +6,7 @@
 
 ### TodoList
 
-- [ ] Alert
+- [x] Alert
 - [ ] Aside
 - [ ] Autocomplete
 - [ ] Avatar
