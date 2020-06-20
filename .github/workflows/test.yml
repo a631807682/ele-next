@@ -1,4 +1,4 @@
-name: "Test"
+name: 'Test'
 
 on:
   push:
@@ -8,23 +8,23 @@ on:
 
 jobs:
   test:
-    name: "Run Test"
+    name: 'Run Test'
     runs-on: ubuntu-latest
     steps:
-      - name: "Use GitHub Actions"
+      - name: 'Use GitHub Actions'
         uses: actions/checkout@v1
-      - name: "Use Node.js 12.x"
+      - name: 'Use Node.js 12.x'
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
-      - name: "Install Package"
-        run: "yarn"
-      - name: "Run Test"
-        run: "npm run coverage"
+      - name: 'Install Package'
+        run: 'yarn'
+      - name: 'Run Test'
+        run: 'npm run coverage'
       - name: Coverage Report
         uses: devmasx/coverage-check-action@v1.1.0
         with:
           type: lcov
           result_path: coverage/lcov.info
-          min_coverage: 60
+          min_coverage: 30
           token: ${{secrets.GITHUB_TOKEN}}
