@@ -17,7 +17,7 @@
 - [x] Button
 - [x] ButtonGroup
 - [ ] Calendar
-- [ ] Card
+- [x] Card
 - [ ] Carousel
 - [ ] CarouselItem
 - [ ] Cascader
