@@ -11,7 +11,7 @@
 - [ ] Autocomplete
 - [ ] Avatar
 - [ ] Backtop
-- [ ] Badge
+- [x] Badge
 - [ ] Breadcrumb
 - [ ] BreadcrumbItem
 - [x] Button
