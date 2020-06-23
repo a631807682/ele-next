@@ -9,6 +9,7 @@ import { install as Icon } from 'packages/icon'
 import { install as Input } from 'packages/input'
 import { install as InputNumber } from 'packages/input-number'
 import { install as Link } from 'packages/link'
+import { install as Progress } from 'packages/progress'
 
 const components = [
   Alert,
@@ -20,6 +21,7 @@ const components = [
   Input,
   InputNumber,
   Link,
+  Progress,
 ]
 
 export const install = function (app: App, opts = {}) {
@@ -44,3 +46,4 @@ export * from 'packages/icon'
 export * from 'packages/input'
 export * from 'packages/input-number'
 export * from 'packages/link'
+export * from 'packages/progress'
