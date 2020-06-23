@@ -62,7 +62,7 @@
 - [ ] Pagination
 - [ ] Popconfirm
 - [ ] Popover
-- [ ] Progress
+- [x] Progress
 - [ ] Radio
 - [ ] RadioButton
 - [ ] RadioGroup
