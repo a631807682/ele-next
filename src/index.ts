@@ -8,6 +8,7 @@ import { install as Card } from 'packages/card'
 import { install as Icon } from 'packages/icon'
 import { install as Input } from 'packages/input'
 import { install as InputNumber } from 'packages/input-number'
+import { install as Link } from 'packages/link'
 
 const components = [
   Alert,
@@ -18,6 +19,7 @@ const components = [
   Icon,
   Input,
   InputNumber,
+  Link,
 ]
 
 export const install = function (app: App, opts = {}) {
@@ -41,3 +43,4 @@ export * from 'packages/card'
 export * from 'packages/icon'
 export * from 'packages/input'
 export * from 'packages/input-number'
+export * from 'packages/link'
