@@ -47,7 +47,7 @@
 - [ ] InfiniteScroll
 - [x] Input
 - [ ] InputNumber
-- [ ] Link
+- [x] Link
 - [ ] Loading
 - [ ] Main
 - [ ] Menu
