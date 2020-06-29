@@ -3,3 +3,7 @@ node_modules
 examples/element-ui
 yarn-error.log
 coverage
+
+# Editor directories
+.idea
+.vscode
