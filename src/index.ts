@@ -10,6 +10,8 @@ import { install as Input } from 'packages/input'
 import { install as InputNumber } from 'packages/input-number'
 import { install as Link } from 'packages/link'
 import { install as Progress } from 'packages/progress'
+import { install as Row } from 'packages/row'
+import { install as Col } from 'packages/col'
 
 const components = [
   Alert,
@@ -22,6 +24,8 @@ const components = [
   InputNumber,
   Link,
   Progress,
+  Row,
+  Col,
 ]
 
 export const install = function (app: App, opts = {}) {
@@ -47,3 +51,5 @@ export * from 'packages/input'
 export * from 'packages/input-number'
 export * from 'packages/link'
 export * from 'packages/progress'
+export * from 'packages/row'
+export * from 'packages/col'
