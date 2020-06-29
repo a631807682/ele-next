@@ -29,6 +29,7 @@
     ]
   },
   "dependencies": {
+    "throttle-debounce": "^2.2.1",
     "vue": "3.0.0-beta.15"
   },
   "devDependencies": {
