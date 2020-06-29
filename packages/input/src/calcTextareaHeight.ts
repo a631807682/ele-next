@@ -25,7 +25,7 @@ const CONTEXT_STYLE = [
   'padding-left',
   'padding-right',
   'border-width',
-  'box-sizing'
+  'box-sizing',
 ]
 
 function calculateNodeStyling(
@@ -44,7 +44,7 @@ function calculateNodeStyling(
     parseFloat(style.getPropertyValue('border-top-width'))
 
   const contextStyle = CONTEXT_STYLE.map(
-    name => `${name}:${style.getPropertyValue(name)}`
+    (name) => `${name}:${style.getPropertyValue(name)}`
   ).join(';')
 
   return { contextStyle, paddingSize, borderSize, boxSizing }
@@ -70,7 +70,7 @@ export default function calcTextareaHeight(
     paddingSize,
     borderSize,
     boxSizing,
-    contextStyle
+    contextStyle,
   } = calculateNodeStyling(targetElement)
 
   hiddenTextarea.setAttribute('style', `${contextStyle};${HIDDEN_STYLE}`)

@@ -6,7 +6,7 @@
 export default {
   name: 'ElIcon',
   props: {
-    name: String
-  }
+    name: String,
+  },
 }
 </script>
