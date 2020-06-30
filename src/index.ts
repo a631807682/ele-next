@@ -5,13 +5,13 @@ import { install as Badge } from 'packages/badge'
 import { install as Button } from 'packages/button'
 import { install as ButtonGroup } from 'packages/button-group'
 import { install as Card } from 'packages/card'
+import { install as Col } from 'packages/col'
 import { install as Icon } from 'packages/icon'
 import { install as Input } from 'packages/input'
 import { install as InputNumber } from 'packages/input-number'
 import { install as Link } from 'packages/link'
 import { install as Progress } from 'packages/progress'
 import { install as Row } from 'packages/row'
-import { install as Col } from 'packages/col'
 
 const components = [
   Alert,
@@ -19,13 +19,13 @@ const components = [
   Button,
   ButtonGroup,
   Card,
+  Col,
   Icon,
   Input,
   InputNumber,
   Link,
   Progress,
   Row,
-  Col,
 ]
 
 export const install = function (app: App, opts = {}) {
@@ -46,10 +46,10 @@ export * from 'packages/badge'
 export * from 'packages/button'
 export * from 'packages/button-group'
 export * from 'packages/card'
+export * from 'packages/col'
 export * from 'packages/icon'
 export * from 'packages/input'
 export * from 'packages/input-number'
 export * from 'packages/link'
 export * from 'packages/progress'
 export * from 'packages/row'
-export * from 'packages/col'

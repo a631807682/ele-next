@@ -1,4 +1,11 @@
-import { defineComponent, inject, computed, h } from 'vue'
+<template>
+  <component :is="tag" :class="['el-col', classList]" :style="style">
+    <slot></slot>
+  </component>
+</template>
+
+<script lang="ts">
+import { defineComponent, inject, computed } from 'vue'
 
 const typeList = ['span', 'offset', 'pull', 'push']
 const sizeList = ['xs', 'sm', 'md', 'lg', 'xl']
@@ -32,7 +39,7 @@ export default defineComponent({
 
     const style = computed(() => {
       if (gutter.value) {
-        const padding = gutter.value / 2 + 'px'
+        const padding = `${gutter.value / 2}px`
         return {
           paddingLeft: padding,
           paddingRight: padding,
@@ -55,10 +62,15 @@ export default defineComponent({
 
       sizeList.forEach((size) => {
         if (typeof props[size] === 'number') {
-          className.push(`el-col-${size}-${this[size]}`)
+          className.push(`el-col-${size}-${props[size]}`)
         } else if (typeof props[size] === 'object') {
           const propObj = props[size]
-          Object.keys(props).forEach((prop) => {
+          Object.keys(propObj).forEach((prop) => {
+            console.log(
+              prop !== 'span'
+                ? `el-col-${size}-${prop}-${propObj[prop]}`
+                : `el-col-${size}-${propObj[prop]}`
+            )
             className.push(
               prop !== 'span'
                 ? `el-col-${size}-${prop}-${propObj[prop]}`
@@ -71,15 +83,10 @@ export default defineComponent({
       return className
     })
 
-    return () => {
-      return h(
-        props.tag,
-        {
-          class: ['el-col', classList.value],
-          style: style.value,
-        },
-        slots.default()
-      )
+    return {
+      classList,
+      style,
     }
   },
 })
+</script>

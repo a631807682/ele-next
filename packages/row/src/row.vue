@@ -1,4 +1,11 @@
-import { defineComponent, PropType, computed, provide, h } from 'vue'
+<template>
+  <component :is="tag" :class="classList" :style="style">
+    <slot></slot>
+  </component>
+</template>
+
+<script lang="ts">
+import { defineComponent, PropType, computed, provide } from 'vue'
 import { JustifyType, AlignType } from './type'
 
 export default defineComponent({
@@ -35,20 +42,15 @@ export default defineComponent({
 
     provide('gutter', gutter)
 
-    return () => {
-      return h(
-        props.tag,
-        {
-          class: {
-            'el-row': true,
-            [`is-justify-${props.justify}`]: props.justify !== 'start',
-            [`is-align-${props.align}`]: props.align !== 'top',
-            'el-row--flex': props.type === 'flex',
-          },
-          style: style.value,
-        },
-        slots.default()
-      )
+    return {
+      style,
+      classList: {
+        'el-row': true,
+        [`is-justify-${props.justify}`]: props.justify !== 'start',
+        [`is-align-${props.align}`]: props.align !== 'top',
+        'el-row--flex': props.type === 'flex',
+      },
     }
   },
 })
+</script>
