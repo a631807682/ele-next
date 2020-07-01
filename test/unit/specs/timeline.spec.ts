@@ -1,4 +1,5 @@
-import { mountWithElement } from '../util'
+import { mountWithElement, wait } from '../util'
+import { ref } from 'vue'
 // import { Timeline } from 'packages/timeline'
 
 describe('Timeline', () => {
@@ -42,6 +43,57 @@ describe('Timeline', () => {
     const timestampItems = wrapper.findAll('.el-timeline-item__timestamp')
     timestampItems.forEach((elm, index) => {
       expect(elm.text()).toEqual(vm.activities[index].timestamp)
+    })
+  })
+
+  it('reverse', async () => {
+    const wrapper = mountWithElement({
+      template: `
+      <el-timeline :reverse="reverse">
+        <el-timeline-item
+          v-for="(activity, index) in activities"
+          :key="index"
+          :timestamp="activity.timestamp">
+          {{activity.content}}
+        </el-timeline-item>
+      </el-timeline>
+      `,
+      setup() {
+        const reverse = ref(true)
+        const activities = [
+          {
+            content: '创建成功',
+            timestamp: '2018-04-11',
+          },
+          {
+            content: '通过审核',
+            timestamp: '2018-04-13',
+          },
+          {
+            content: '活动按期开始',
+            timestamp: '2018-04-15',
+          },
+        ]
+        return {
+          activities,
+          reverse,
+        }
+      },
+    })
+    const vm = wrapper.vm as any
+    const items = wrapper.findAll('.el-timeline-item__content')
+    items.forEach((elm, index) => {
+      expect(elm.text()).toEqual(
+        vm.activities[vm.activities.length - index - 1].content
+      )
+    })
+
+    vm.reverse = false
+    await wait()
+
+    const itemsReverse = wrapper.findAll('.el-timeline-item__content')
+    itemsReverse.forEach((elm, index) => {
+      expect(elm.text()).toEqual(vm.activities[index].content)
     })
   })
 
