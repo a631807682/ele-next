@@ -83,8 +83,8 @@
 - [ ] Tag
 - [ ] TimePicker
 - [ ] TimeSelect
-- [ ] Timeline
-- [ ] TimelineItem
+- [x] Timeline
+- [x] TimelineItem
 - [ ] Tooltip
 - [ ] Transfer
 - [ ] Tree

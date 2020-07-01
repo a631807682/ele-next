@@ -11,6 +11,8 @@ import { install as Input } from 'packages/input'
 import { install as InputNumber } from 'packages/input-number'
 import { install as Link } from 'packages/link'
 import { install as Progress } from 'packages/progress'
+import { install as Timeline } from 'packages/timeline'
+import { install as TimelineItem } from 'packages/timeline-item'
 import { install as Row } from 'packages/row'
 
 const components = [
@@ -25,6 +27,8 @@ const components = [
   InputNumber,
   Link,
   Progress,
+  Timeline,
+  TimelineItem,
   Row,
 ]
 
@@ -52,4 +56,6 @@ export * from 'packages/input'
 export * from 'packages/input-number'
 export * from 'packages/link'
 export * from 'packages/progress'
+export * from 'packages/timeline'
+export * from 'packages/timeline-item'
 export * from 'packages/row'
