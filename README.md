@@ -25,7 +25,7 @@
 - [ ] Checkbox
 - [ ] CheckboxButton
 - [ ] CheckboxGroup
-- [ ] Col
+- [x] Col
 - [ ] Collapse
 - [ ] CollapseItem
 - [ ] CollapseTransition
@@ -67,7 +67,7 @@
 - [ ] RadioButton
 - [ ] RadioGroup
 - [ ] Rate
-- [ ] Row
+- [x] Row
 - [ ] Scrollbar
 - [ ] Select
 - [ ] Slider
