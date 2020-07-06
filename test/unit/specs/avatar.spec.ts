@@ -3,6 +3,27 @@ import { Avatar } from 'packages/avatar'
 import { IMAGE_SUCCESS, IMAGE_FAIL } from '../mocks/uri'
 
 describe('Avatar', () => {
+  beforeAll(() => {
+    const srcKey = Symbol('src')
+    // Mocking Image.prototype.src to call the onload or onerror
+    // callbacks depending on the src passed to it
+    Object.defineProperty(window.Image.prototype, 'src', {
+      // Define the property setter
+      set(src) {
+        this[srcKey] = src
+        if (src === IMAGE_FAIL) {
+          // Call with setTimeout to simulate async loading
+          setTimeout(() => this.dispatchEvent(new Event('error')))
+        } else if (src === IMAGE_SUCCESS) {
+          setTimeout(() => this.dispatchEvent(new Event('load')))
+        }
+      },
+      get() {
+        return this[srcKey]
+      },
+    })
+  })
+
   it('create', async () => {
     const wrapper = mountWithProps(Avatar, {
       icon: 'el-icon-user-solid',
