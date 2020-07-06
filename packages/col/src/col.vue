@@ -66,11 +66,6 @@ export default defineComponent({
         } else if (typeof props[size] === 'object') {
           const propObj = props[size]
           Object.keys(propObj).forEach((prop) => {
-            console.log(
-              prop !== 'span'
-                ? `el-col-${size}-${prop}-${propObj[prop]}`
-                : `el-col-${size}-${propObj[prop]}`
-            )
             className.push(
               prop !== 'span'
                 ? `el-col-${size}-${prop}-${propObj[prop]}`
