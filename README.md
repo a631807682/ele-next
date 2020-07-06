@@ -9,7 +9,7 @@
 - [x] Alert
 - [ ] Aside
 - [ ] Autocomplete
-- [ ] Avatar
+- [x] Avatar
 - [ ] Backtop
 - [x] Badge
 - [ ] Breadcrumb

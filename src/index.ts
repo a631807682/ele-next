@@ -1,6 +1,7 @@
 import { App } from 'vue'
 import { ElementUIOptions } from 'src/component'
 import { install as Alert } from 'packages/alert'
+import { install as Avatar } from 'packages/avatar'
 import { install as Backtop } from 'packages/backtop'
 import { install as Badge } from 'packages/badge'
 import { install as Button } from 'packages/button'
@@ -18,6 +19,7 @@ import { install as Row } from 'packages/row'
 
 const components = [
   Alert,
+  Avatar,
   Backtop,
   Badge,
   Button,
@@ -48,6 +50,7 @@ export const install = function (app: App, opts = {}) {
 export const version = 'v0.0.0-alpha.0'
 export * from 'src/component'
 export * from 'packages/alert'
+export * from 'packages/avatar'
 export * from 'packages/backtop'
 export * from 'packages/badge'
 export * from 'packages/button'
