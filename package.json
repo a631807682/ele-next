@@ -30,14 +30,14 @@
   },
   "dependencies": {
     "throttle-debounce": "^2.2.1",
-    "vue": "3.0.0-beta.15"
+    "vue": "3.0.0-beta.20"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.5",
     "@types/jest": "^25.2.1",
     "@types/mocha": "^7.0.2",
-    "@vue/compiler-sfc": "3.0.0-beta.15",
+    "@vue/compiler-sfc": "3.0.0-beta.20",
     "@vue/test-utils": "2.0.0-alpha.6",
     "babel-jest": "^25.3.0",
     "babel-loader": "^8.1.0",
