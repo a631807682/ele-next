@@ -63,6 +63,7 @@
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3",
-    "yorkie": "^2.0.0"
+    "yorkie": "^2.0.0",
+    "vue-router": "^4.0.0-alpha.13"
   }
 }

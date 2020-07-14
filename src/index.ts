@@ -4,6 +4,8 @@ import { install as Alert } from 'packages/alert'
 import { install as Avatar } from 'packages/avatar'
 import { install as Backtop } from 'packages/backtop'
 import { install as Badge } from 'packages/badge'
+import { install as Breadcrumb } from 'packages/breadcrumb'
+import { install as BreadcrumbItem } from 'packages/breadcrumb-item'
 import { install as Button } from 'packages/button'
 import { install as ButtonGroup } from 'packages/button-group'
 import { install as Card } from 'packages/card'
@@ -13,15 +15,17 @@ import { install as Input } from 'packages/input'
 import { install as InputNumber } from 'packages/input-number'
 import { install as Link } from 'packages/link'
 import { install as Progress } from 'packages/progress'
+import { install as Row } from 'packages/row'
 import { install as Timeline } from 'packages/timeline'
 import { install as TimelineItem } from 'packages/timeline-item'
-import { install as Row } from 'packages/row'
 
 const components = [
   Alert,
   Avatar,
   Backtop,
   Badge,
+  Breadcrumb,
+  BreadcrumbItem,
   Button,
   ButtonGroup,
   Card,
@@ -31,9 +35,9 @@ const components = [
   InputNumber,
   Link,
   Progress,
+  Row,
   Timeline,
   TimelineItem,
-  Row,
 ]
 
 export const install = function (app: App, opts = {}) {
@@ -53,6 +57,8 @@ export * from 'packages/alert'
 export * from 'packages/avatar'
 export * from 'packages/backtop'
 export * from 'packages/badge'
+export * from 'packages/breadcrumb'
+export * from 'packages/breadcrumb-item'
 export * from 'packages/button'
 export * from 'packages/button-group'
 export * from 'packages/card'
@@ -62,6 +68,6 @@ export * from 'packages/input'
 export * from 'packages/input-number'
 export * from 'packages/link'
 export * from 'packages/progress'
+export * from 'packages/row'
 export * from 'packages/timeline'
 export * from 'packages/timeline-item'
-export * from 'packages/row'
