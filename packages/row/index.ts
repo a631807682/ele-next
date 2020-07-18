@@ -5,3 +5,4 @@ export const install = function (app: App) {
 }
 
 export const Row = Comp
+export * from './src/type'

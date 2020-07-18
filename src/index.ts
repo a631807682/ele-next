@@ -17,7 +17,6 @@ import { install as Progress } from 'packages/progress'
 import { install as Row } from 'packages/row'
 import { install as Timeline } from 'packages/timeline'
 import { install as TimelineItem } from 'packages/timeline-item'
-import { install as Row } from 'packages/row'
 import { install as Tag } from 'packages/tag'
 
 const components = [
@@ -38,7 +37,6 @@ const components = [
   Row,
   Timeline,
   TimelineItem,
-  Row,
   Tag,
 ]
 
@@ -72,5 +70,4 @@ export * from 'packages/progress'
 export * from 'packages/row'
 export * from 'packages/timeline'
 export * from 'packages/timeline-item'
-export * from 'packages/row'
 export * from 'packages/tag'
