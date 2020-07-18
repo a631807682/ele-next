@@ -82,8 +82,6 @@ export default defineComponent({
     },
   },
   setup(props, ctx) {
-    // console.log('pps', props.type)
-
     const visible = ref(true)
 
     const state = reactive({
