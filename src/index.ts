@@ -10,6 +10,7 @@ import { install as Button } from 'packages/button'
 import { install as ButtonGroup } from 'packages/button-group'
 import { install as Card } from 'packages/card'
 import { install as Col } from 'packages/col'
+import { install as Divider } from 'packages/divider'
 import { install as Icon } from 'packages/icon'
 import { install as Input } from 'packages/input'
 import { install as InputNumber } from 'packages/input-number'
@@ -30,6 +31,7 @@ const components = [
   ButtonGroup,
   Card,
   Col,
+  Divider,
   Icon,
   Input,
   InputNumber,
@@ -63,6 +65,7 @@ export * from 'packages/button'
 export * from 'packages/button-group'
 export * from 'packages/card'
 export * from 'packages/col'
+export * from 'packages/divider'
 export * from 'packages/icon'
 export * from 'packages/input'
 export * from 'packages/input-number'
