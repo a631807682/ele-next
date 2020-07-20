@@ -12,15 +12,21 @@
       class="el-breadcrumb__separator"
       :class="separatorClass"
     ></i>
-    <span v-else class="el-breadcrumb__separator" role="presentation">{{
-      separator
-    }}</span>
+    <span v-else class="el-breadcrumb__separator" role="presentation">
+      {{ separator }}
+    </span>
   </span>
 </template>
 <script lang="ts">
-import { defineComponent, onMounted, inject, ref, Ref } from 'vue'
+import {
+  defineComponent,
+  onMounted,
+  inject,
+  ref,
+  Ref,
+  getCurrentInstance,
+} from 'vue'
 import { propsSymbol } from './propsKey'
-import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'ElBreadcrumbItem',
@@ -34,7 +40,9 @@ export default defineComponent({
     const link: Ref<HTMLElement | null> = ref(null)
 
     const propsData: any = inject(propsSymbol)
-    const router = useRouter()
+
+    const instance = getCurrentInstance()
+    const router = (instance.proxy as any).$router
 
     onMounted(() => {
       separator.value = propsData.separator
