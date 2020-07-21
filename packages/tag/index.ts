@@ -1,5 +1,5 @@
 import { App } from 'vue'
-import Comp from './src/tag'
+import Comp from './src/tag.vue'
 export const install = function (app: App) {
   app.component(Comp.name, Comp)
 }

@@ -33,7 +33,7 @@
 .el-zoom-in-center-leave-active {
   transition: all .3s cubic-bezier(.55,0,.1,1);
 }
-.el-zoom-in-center-enter,
+.el-zoom-in-center-enter-from,
 .el-zoom-in-center-leave-active {
   opacity: 0;
   transform: scaleX(0);

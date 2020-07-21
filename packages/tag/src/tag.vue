@@ -1,3 +1,4 @@
+<script lang="ts">
 import {
   defineComponent,
   PropType,
@@ -5,6 +6,7 @@ import {
   getCurrentInstance,
   h,
   renderSlot,
+  Transition,
 } from 'vue'
 import { TagEffect, TagSize, TagType } from './type'
 import { ElementUIProp } from 'src/component'
@@ -20,6 +22,10 @@ export default defineComponent({
     },
     hit: Boolean,
     disableTransitions: Boolean, // unrealized
+    show: {
+      default: true,
+      type: Boolean,
+    },
     color: String,
     size: {
       default: '',
@@ -45,9 +51,9 @@ export default defineComponent({
     const classes = computed(() => [
       'el-tag',
       {
-        [`el-tag--${props['type']}`]: props['type'],
-        [`el-tag--${tagSize.value}`]: tagSize.value,
-        [`el-tag--${props['effect']}`]: props['effect'],
+        [`el-tag--${props['type']}`]: !!props['type'],
+        [`el-tag--${tagSize.value}`]: !!tagSize.value,
+        [`el-tag--${props['effect']}`]: !!props['effect'],
         'is-hit': props['hit'],
       },
     ])
@@ -74,15 +80,20 @@ export default defineComponent({
         ]
       )
 
-      return tagEl
-
-      /*
       return props['disableTransitions']
         ? tagEl
-        : h(Transition, {
-          name: 'el-zoom-in-center'
-        }, tagEl)
-      */
+        : h(
+            Transition,
+            {
+              name: 'el-zoom-in-center',
+            },
+            {
+              default: () => {
+                return props['show'] ? tagEl : null
+              },
+            }
+          )
     }
   },
 })
+</script>
