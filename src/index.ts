@@ -4,6 +4,8 @@ import { install as Alert } from 'packages/alert'
 import { install as Avatar } from 'packages/avatar'
 import { install as Backtop } from 'packages/backtop'
 import { install as Badge } from 'packages/badge'
+import { install as Breadcrumb } from 'packages/breadcrumb'
+import { install as BreadcrumbItem } from 'packages/breadcrumb-item'
 import { install as Button } from 'packages/button'
 import { install as ButtonGroup } from 'packages/button-group'
 import { install as Card } from 'packages/card'
@@ -23,6 +25,8 @@ const components = [
   Avatar,
   Backtop,
   Badge,
+  Breadcrumb,
+  BreadcrumbItem,
   Button,
   ButtonGroup,
   Card,
@@ -55,6 +59,8 @@ export * from 'packages/alert'
 export * from 'packages/avatar'
 export * from 'packages/backtop'
 export * from 'packages/badge'
+export * from 'packages/breadcrumb'
+export * from 'packages/breadcrumb-item'
 export * from 'packages/button'
 export * from 'packages/button-group'
 export * from 'packages/card'
