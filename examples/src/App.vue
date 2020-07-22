@@ -13,7 +13,7 @@
   ></el-input>
   <el-button type="primary" @click="handleClick">change input type</el-button>
   <el-button type="primary" @click="show = !show">change input type</el-button>
-  <el-tag type="primary" :show="show">tag</el-tag>
+  <el-tag type="primary" :visible="show">tag</el-tag>
 </template>
 
 <script lang="ts">

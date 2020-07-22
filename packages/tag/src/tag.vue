@@ -21,23 +21,23 @@ export default defineComponent({
       type: String as PropType<TagType>,
     },
     hit: Boolean,
-    disableTransitions: Boolean, // unrealized
-    show: {
-      default: true,
+    disableTransitions: Boolean,
+    visible: {
+      default: true, // disableTransitions is false, please use to control the display visible, do not use the v-if
       type: Boolean,
     },
     color: String,
     size: {
       default: '',
       type: String as PropType<TagSize>,
-      validator(val: string): boolean {
+      validator: (val: string) => {
         return ['medium', 'small', 'mini', ''].includes(val)
       },
     },
     effect: {
       default: 'light',
       type: String as PropType<TagEffect>,
-      validator(val: string): boolean {
+      validator: (val: string) => {
         return ['dark', 'light', 'plain'].includes(val)
       },
     },
@@ -46,15 +46,15 @@ export default defineComponent({
     // ctx: Private property
     const $ELEMENT = getCurrentInstance()['ctx']['$ELEMENT'] as ElementUIProp
 
-    const tagSize = computed(() => props['size'] || ($ELEMENT || {}).size)
+    const tagSize = computed(() => props.size || ($ELEMENT || {}).size)
 
     const classes = computed(() => [
       'el-tag',
       {
-        [`el-tag--${props['type']}`]: !!props['type'],
+        [`el-tag--${props.type}`]: !!props.type,
         [`el-tag--${tagSize.value}`]: !!tagSize.value,
-        [`el-tag--${props['effect']}`]: !!props['effect'],
-        'is-hit': props['hit'],
+        [`el-tag--${props.effect}`]: !!props.effect,
+        'is-hit': props.hit,
       },
     ])
 
@@ -68,11 +68,11 @@ export default defineComponent({
         'div',
         {
           class: classes.value,
-          style: { backgroundColor: props['color'] },
+          style: { backgroundColor: props.color },
         },
         [
           renderSlot(slots, 'default'),
-          props['closable'] &&
+          props.closable &&
             h('i', {
               class: 'el-tag__close el-icon-close',
               onClick: handleClose,
@@ -80,7 +80,7 @@ export default defineComponent({
         ]
       )
 
-      return props['disableTransitions']
+      return props.disableTransitions
         ? tagEl
         : h(
             Transition,
@@ -89,7 +89,7 @@ export default defineComponent({
             },
             {
               default: () => {
-                return props['show'] ? tagEl : null
+                return props.visible ? tagEl : null
               },
             }
           )
