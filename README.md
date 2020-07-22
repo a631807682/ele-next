@@ -12,8 +12,8 @@
 - [x] Avatar
 - [ ] Backtop
 - [x] Badge
-- [ ] Breadcrumb
-- [ ] BreadcrumbItem
+- [x] Breadcrumb
+- [x] BreadcrumbItem
 - [x] Button
 - [x] ButtonGroup
 - [ ] Calendar
