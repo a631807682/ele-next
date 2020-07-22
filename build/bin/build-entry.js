@@ -42,6 +42,8 @@ export const install = function (app: App, opts = {}) {
     ...ElementUIOptions.value,
     ...opts,
   }
+
+  app.config.globalProperties.$ELEMENT = ElementUIOptions.value
 }
 
 export const version = '{{version}}'

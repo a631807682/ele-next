@@ -45,10 +45,12 @@ export const install = function (app: App, opts = {}) {
     app.use(comp)
   })
 
-  app.config.globalProperties.$ELEMENT = ElementUIOptions.value = {
+  ElementUIOptions.value = {
     ...ElementUIOptions.value,
     ...opts,
   }
+
+  app.config.globalProperties.$ELEMENT = ElementUIOptions.value
 }
 
 export const version = 'v0.0.0-alpha.0'
