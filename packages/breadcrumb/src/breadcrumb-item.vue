@@ -12,9 +12,9 @@
       class="el-breadcrumb__separator"
       :class="separatorClass"
     ></i>
-    <span v-else class="el-breadcrumb__separator" role="presentation">
-      {{ separator }}
-    </span>
+    <span v-else class="el-breadcrumb__separator" role="presentation">{{
+      separator
+    }}</span>
   </span>
 </template>
 <script lang="ts">
@@ -43,6 +43,12 @@ export default defineComponent({
 
     const instance = getCurrentInstance()
     const router = (instance.proxy as any).$router
+
+    if (router === undefined) {
+      console.warn(`[Element Warn]: "router" is undefined, mount router on globalProperties:
+VueApp.use(router)
+VueApp.config.globalProperties.$router = router`)
+    }
 
     onMounted(() => {
       separator.value = propsData.separator
