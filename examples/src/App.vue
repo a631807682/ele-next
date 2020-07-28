@@ -12,12 +12,11 @@
     suffix-icon="el-icon-date"
   ></el-input>
   <el-button type="primary" @click="handleClick">change input type</el-button>
-  <el-button type="primary" @click="show = !show">change input type</el-button>
-  <el-tag type="primary" :visible="show">tag</el-tag>
+  <el-tag>tag</el-tag>
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs, reactive, ref } from 'vue'
+import { defineComponent, toRefs, reactive } from 'vue'
 import { InputType, AutoSize } from 'src'
 
 export default defineComponent({
@@ -48,11 +47,8 @@ export default defineComponent({
       }
     }
 
-    const show = ref(false)
-
     return {
       ...toRefs(state),
-      show,
       handleChange,
       handleClick,
       handleInput,

@@ -1,12 +1,21 @@
+<template>
+  <div :class="classes" :style="{ backgroundColor: color }">
+    <slot></slot>
+    <i
+      v-if="closable"
+      @click="handleClose"
+      class="el-tag__close el-icon-close"
+    ></i>
+  </div>
+</template>
+
 <script lang="ts">
 import {
   defineComponent,
   PropType,
   computed,
   getCurrentInstance,
-  h,
-  renderSlot,
-  Transition,
+  Ref,
 } from 'vue'
 import { TagEffect, TagSize, TagType } from './type'
 import { ElementUIProp } from 'src/component'
@@ -14,24 +23,19 @@ import { ElementUIProp } from 'src/component'
 export default defineComponent({
   name: 'ElTag',
   props: {
-    text: String, // unused
     closable: Boolean,
     type: {
-      default: '',
       type: String as PropType<TagType>,
+      validator: (val: string) => {
+        return ['success', 'warning', 'danger', 'info'].includes(val)
+      },
     },
     hit: Boolean,
-    disableTransitions: Boolean,
-    visible: {
-      default: true, // disableTransitions is false, please use to control the display visible, do not use the v-if
-      type: Boolean,
-    },
     color: String,
     size: {
-      default: '',
       type: String as PropType<TagSize>,
       validator: (val: string) => {
-        return ['medium', 'small', 'mini', ''].includes(val)
+        return ['medium', 'small', 'mini'].includes(val)
       },
     },
     effect: {
@@ -44,9 +48,11 @@ export default defineComponent({
   },
   setup(props, { emit, slots }) {
     // ctx: Private property
-    const $ELEMENT = getCurrentInstance()['ctx']['$ELEMENT'] as ElementUIProp
+    const $ELEMENT = getCurrentInstance()['ctx']['$ELEMENT'] as Ref<
+      ElementUIProp
+    >
 
-    const tagSize = computed(() => props.size || ($ELEMENT || {}).size)
+    const tagSize = computed(() => props.size || $ELEMENT.value.size)
 
     const classes = computed(() => [
       'el-tag',
@@ -60,39 +66,12 @@ export default defineComponent({
 
     const handleClose = (event: Event): void => {
       event.stopPropagation()
-      emit('close', Event)
+      emit('close', event)
     }
 
-    return () => {
-      const tagEl = h(
-        'div',
-        {
-          class: classes.value,
-          style: { backgroundColor: props.color },
-        },
-        [
-          renderSlot(slots, 'default'),
-          props.closable &&
-            h('i', {
-              class: 'el-tag__close el-icon-close',
-              onClick: handleClose,
-            }),
-        ]
-      )
-
-      return props.disableTransitions
-        ? tagEl
-        : h(
-            Transition,
-            {
-              name: 'el-zoom-in-center',
-            },
-            {
-              default: () => {
-                return props.visible ? tagEl : null
-              },
-            }
-          )
+    return {
+      classes,
+      handleClose,
     }
   },
 })

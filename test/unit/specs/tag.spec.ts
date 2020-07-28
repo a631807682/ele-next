@@ -55,14 +55,14 @@ describe('Tag', () => {
     expect(vm.isClose).toBe(true)
   })
 
-  it('closeTransition', () => {
-    const wrapper = mountWithProps(Tag, {
-      closable: true,
-      closeTransition: true,
-    })
+  // it('closeTransition', () => {
+  //   const wrapper = mountWithProps(Tag, {
+  //     closable: true,
+  //     closeTransition: true,
+  //   })
 
-    expect(wrapper.classes('md-fade-center')).toBe(false)
-  })
+  //   expect(wrapper.classes('md-fade-center')).toBe(false)
+  // })
 
   it('color', () => {
     const wrapper = mountWithProps(Tag, {
