@@ -1,4 +1,4 @@
-import { App } from 'vue'
+import { App, ref } from 'vue'
 import { ElementUIOptions } from 'src/component'
 import { install as Alert } from 'packages/alert'
 import { install as Avatar } from 'packages/avatar'
@@ -17,9 +17,9 @@ import { install as InputNumber } from 'packages/input-number'
 import { install as Link } from 'packages/link'
 import { install as Progress } from 'packages/progress'
 import { install as Row } from 'packages/row'
+import { install as Tag } from 'packages/tag'
 import { install as Timeline } from 'packages/timeline'
 import { install as TimelineItem } from 'packages/timeline-item'
-import { install as Tag } from 'packages/tag'
 
 const components = [
   Alert,
@@ -39,9 +39,9 @@ const components = [
   Link,
   Progress,
   Row,
+  Tag,
   Timeline,
   TimelineItem,
-  Tag,
 ]
 
 export const install = function (app: App, opts = {}) {
@@ -49,12 +49,12 @@ export const install = function (app: App, opts = {}) {
     app.use(comp)
   })
 
-  ElementUIOptions.value = {
-    ...ElementUIOptions.value,
+  const options = {
+    ...ElementUIOptions,
     ...opts,
   }
 
-  app.config.globalProperties.$ELEMENT = ElementUIOptions.value
+  app.config.globalProperties.$ELEMENT = ref(options)
 }
 
 export const version = 'v0.0.0-alpha.0'
@@ -76,6 +76,6 @@ export * from 'packages/input-number'
 export * from 'packages/link'
 export * from 'packages/progress'
 export * from 'packages/row'
+export * from 'packages/tag'
 export * from 'packages/timeline'
 export * from 'packages/timeline-item'
-export * from 'packages/tag'

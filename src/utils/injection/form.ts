@@ -1,5 +1,5 @@
-import { provide, inject, computed } from 'vue'
-import { ElementUIOptions, ElementUIComponentSize } from 'src/component'
+import { provide, inject, computed, getCurrentInstance, Ref } from 'vue'
+import { ElementUIComponentSize, ElementUIProp } from 'src/component'
 
 const formSymbol = Symbol('elForm')
 const formItemSymbol = Symbol('elFormItem')
@@ -19,12 +19,14 @@ export const useForm = ({
   const elForm = inject(formSymbol, {} as any)
   const elFormItem = inject(formItemSymbol, {} as any)
 
+  const $ELEMENT = getCurrentInstance()['ctx']['$ELEMENT'] as Ref<ElementUIProp>
+
   const validateState = computed<string>(() => {
     return elFormItem ? elFormItem.validateState : ''
   })
 
   const _size = computed<string>(() => {
-    return size || elFormItem.elFormItemSize || ElementUIOptions.value.size
+    return size || elFormItem.elFormItemSize || $ELEMENT.value.size
   })
 
   const needStatusIcon = computed<boolean>(() => {

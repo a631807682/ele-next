@@ -25,7 +25,7 @@ const exportComponents = components.map(({ name, package }) => {
 })
 
 const template = `
-import { App } from 'vue'
+import { App, ref } from 'vue'
 import { ElementUIOptions } from 'src/component'
 {{importComponents}}
 
@@ -38,12 +38,12 @@ export const install = function (app: App, opts = {}) {
     app.use(comp)
   })
 
-  ElementUIOptions.value = {
-    ...ElementUIOptions.value,
+  const options = {
+    ...ElementUIOptions,
     ...opts,
   }
 
-  app.config.globalProperties.$ELEMENT = ElementUIOptions.value
+  app.config.globalProperties.$ELEMENT = ref(options)
 }
 
 export const version = '{{version}}'
