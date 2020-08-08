@@ -10,7 +10,7 @@
 - [ ] Aside
 - [ ] Autocomplete
 - [x] Avatar
-- [ ] Backtop
+- [x] Backtop
 - [x] Badge
 - [x] Breadcrumb
 - [x] BreadcrumbItem
@@ -33,7 +33,7 @@
 - [ ] Container
 - [ ] DatePicker
 - [ ] Dialog
-- [ ] Divider
+- [x] Divider
 - [ ] Drawer
 - [ ] Dropdown
 - [ ] DropdownItem
@@ -46,7 +46,7 @@
 - [ ] Image
 - [ ] InfiniteScroll
 - [x] Input
-- [ ] InputNumber
+- [x] InputNumber
 - [x] Link
 - [ ] Loading
 - [ ] Main
