@@ -82,22 +82,18 @@ export default defineComponent({
       if (isNumber(val)) {
         return true
       }
-      console.warn('update:modelValue error', val)
       return false
     },
     input: (val: Number) => {
       if (isNumber(val)) {
         return true
       }
-      console.warn('input error', val)
       return false
     },
     change: (val: number, oldVal: number) => {
-      console.log('change check', val, oldVal)
       if (isNumber(val) && isNumber(oldVal)) {
         return true
       }
-      console.warn('change error', val, oldVal)
       return false
     },
     blur: null,
@@ -193,7 +189,6 @@ export default defineComponent({
       }),
 
       displayValue: computed(() => {
-        console.log('displayValue', state.userInput)
         if (state.userInput !== null) {
           return state.userInput
         }
@@ -270,26 +265,23 @@ export default defineComponent({
         state.currentValue = value
         state.userInput = null
         ctx.emit('input', value)
+        ctx.emit('update:modelValue', value)
       },
       {
         immediate: true,
       }
     )
     const handleBlur = (event) => {
-      console.log('handleBlur')
       ctx.emit('blur', event)
     }
     const handleFocus = (event) => {
-      console.log('handleFocus')
       ctx.emit('focus', event)
     }
 
     const handleInput = (value) => {
-      console.log('handleInput')
       state.userInput = value
     }
     const handleInputChange = (value) => {
-      console.log('handleInputChange', value)
       const newVal = value === '' ? undefined : Number(value)
       if (!isNaN(newVal) || value === '') {
         setCurrentValue(newVal)
