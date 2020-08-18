@@ -1,4 +1,6 @@
-# ele-next
+# ele-next 
+
+# This repo is archived. Ongoing development on this project can be found in https://github.com/element-plus/element-plus/
 
 ![Test](https://github.com/a631807682/ele-next/workflows/Test/badge.svg)
 
